@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -16,8 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" prefHeight="750.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -70,37 +68,40 @@
                   <SplitPane dividerPositions="0.6353887399463807" layoutX="59.0" layoutY="50.0" orientation="VERTICAL" prefHeight="748.0" prefWidth="697.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <GridPane prefHeight="97.0" prefWidth="387.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                        <ScrollPane vbarPolicy="ALWAYS">
+                           <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
-                                    <Label text="Recipe name" />
-                                    <Label text="Label" GridPane.columnIndex="1" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="Primary ingredient" GridPane.rowIndex="1" />
-                                    <Label text="Chef name" GridPane.rowIndex="2" />
+                                    <GridPane prefHeight="97.0" prefWidth="387.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Recipe name" />
+                                          <Label text="Label" GridPane.columnIndex="1" />
+                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="Primary ingredient" GridPane.rowIndex="1" />
+                                          <Label text="Chef name" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <Label layoutY="105.0" text="Ingredient list" />
+                                    <TableView layoutY="126.0" prefHeight="200.0" prefWidth="509.0">
+                                      <columns>
+                                        <TableColumn prefWidth="256.0" text="Amount" />
+                                        <TableColumn prefWidth="252.0" text="Ingredient type" />
+                                      </columns>
+                                    </TableView>
                                  </children>
-                              </GridPane>
-                              <Label layoutY="105.0" text="Ingredient list" />
-                              <TableView layoutY="126.0" prefHeight="200.0" prefWidth="509.0">
-                                <columns>
-                                  <TableColumn prefWidth="256.0" text="Amount" />
-                                  <TableColumn prefWidth="252.0" text="Ingredient type" />
-                                </columns>
-                              </TableView>
-                              <ScrollBar layoutX="672.0" layoutY="5.0" orientation="VERTICAL" prefHeight="268.0" prefWidth="18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="680.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
                     </items>
                   </SplitPane>
                </children>

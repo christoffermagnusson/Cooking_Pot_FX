@@ -46,7 +46,7 @@ public class Chef {
 	}
 
 	public String toString(){
-		return String.format("%s %s",this.firstName,this.lastName);
+		return String.format("%s %s",this.firstName.get(),this.lastName.get());
 	}
 
 }
