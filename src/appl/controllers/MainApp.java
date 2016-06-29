@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import ui.gui.RecipeListController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -50,6 +51,9 @@ public class MainApp extends Application{
       AnchorPane recipeListView = (AnchorPane) loader.load();
 
       rootLayout.setCenter(recipeListView);
+
+      RecipeListController controller = loader.getController();
+      controller.setMainApp(this);
     }
     catch(IOException ioe){
       ioe.printStackTrace();
