@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.gui.RecipeListController">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" prefHeight="750.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -33,7 +33,7 @@
                      <children>
                         <ScrollPane GridPane.rowIndex="1">
                            <content>
-                              <ListView prefHeight="600.0" prefWidth="275.0" />
+                              <ListView fx:id="recipeList" prefHeight="600.0" prefWidth="275.0" />
                            </content>
                         </ScrollPane>
                         <VBox prefHeight="201.0" prefWidth="274.0">
@@ -50,7 +50,7 @@
                                           <Insets top="25.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField>
+                                    <TextField fx:id="filterTextField">
                                        <HBox.margin>
                                           <Insets top="20.0" />
                                        </HBox.margin>
@@ -84,18 +84,18 @@
                                       </rowConstraints>
                                        <children>
                                           <Label text="Recipe name" />
-                                          <Label text="Label" GridPane.columnIndex="1" />
-                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label fx:id="recipeNameLabel" text="Label" GridPane.columnIndex="1" />
+                                          <Label fx:id="primaryIngredientLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label fx:id="chefNameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Primary ingredient" GridPane.rowIndex="1" />
                                           <Label text="Chef name" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
                                     <Label layoutY="105.0" text="Ingredient list" />
-                                    <TableView layoutY="126.0" prefHeight="200.0" prefWidth="509.0">
+                                    <TableView fx:id="ingredientTable" layoutY="126.0" prefHeight="200.0" prefWidth="509.0">
                                       <columns>
-                                        <TableColumn prefWidth="256.0" text="Amount" />
-                                        <TableColumn prefWidth="252.0" text="Ingredient type" />
+                                        <TableColumn fx:id="amountColumn" prefWidth="256.0" text="Amount" />
+                                        <TableColumn fx:id="nameColumn" prefWidth="252.0" text="Ingredient type" />
                                       </columns>
                                     </TableView>
                                  </children>
