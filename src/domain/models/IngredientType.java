@@ -35,6 +35,9 @@ public class IngredientType {
 	public StringProperty measurementProperty(){
 		return measurement;
 	}
+	public String toString(){
+		return this.name.get();
+	}
 
 
 
