@@ -11,6 +11,8 @@ public interface IngredientStorage {
 
 	IngredientType fetchIngredientType(String typeName);
 
+	ArrayList<IngredientType> fetchAllIngredientTypes();
+
 	void storeIngredients(Recipe recipe, ArrayList<Ingredient> ingredients);
 
 	ArrayList<Ingredient> fetchIngredients(Recipe recipe);
