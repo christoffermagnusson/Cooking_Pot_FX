@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
 import domain.models.Recipe;
+import domain.handlers.IngredientListHandler;
 import storage.interfaces.IngredientStorage;
 import log.Log;
 
@@ -13,6 +14,8 @@ public class IngredientStorageImplTest implements IngredientStorage {
 	private ArrayList<IngredientType> typeArray = new ArrayList<IngredientType>();
 	private ArrayList<Ingredient> ingredientArray = new ArrayList<Ingredient>();
 	private Log log = new Log();
+	private IngredientListHandler handler = null;
+	private ArrayList<IngredientListHandler> handlerList = new ArrayList<IngredientListHandler>();
 
 	public IngredientStorageImplTest(){
 		initArrays();
@@ -45,19 +48,26 @@ public class IngredientStorageImplTest implements IngredientStorage {
 
 	@Override
 	public void storeIngredients(Recipe recipe, ArrayList<Ingredient> ingredients) {
-		// TODO Auto-generated method stub
-
+		handler = new IngredientListHandler(recipe);
+		for(Ingredient i : ingredients){
+			handler.addIngredient(i);
+		}
+		handlerList.add(handler);
 	}
 
 	@Override
-	public ArrayList<Ingredient> fetchIngredients(Recipe recipe) {
-		// TODO Auto-generated method stub
+	public IngredientListHandler fetchIngredients(Recipe recipe) {
+		for(IngredientListHandler ilh : handlerList){
+			if(ilh.getRecipe().toString().equals(recipe.toString())){
+				return ilh;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public ArrayList<IngredientType> fetchAllIngredientTypes() {
-		
+
 		return typeArray;
 	}
 

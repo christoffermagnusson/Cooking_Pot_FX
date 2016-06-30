@@ -1,6 +1,7 @@
 package storage.interfaces;
 
 import domain.models.IngredientType;
+import domain.handlers.IngredientListHandler;
 import domain.models.Ingredient;
 import domain.models.Recipe;
 import java.util.ArrayList;
@@ -15,6 +16,6 @@ public interface IngredientStorage {
 
 	void storeIngredients(Recipe recipe, ArrayList<Ingredient> ingredients);
 
-	ArrayList<Ingredient> fetchIngredients(Recipe recipe);
+	IngredientListHandler fetchIngredients(Recipe recipe);
 
 }
