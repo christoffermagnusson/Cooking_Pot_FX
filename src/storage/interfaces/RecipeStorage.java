@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public interface RecipeStorage {
 
+	void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage);
+
 	void storeRecipe(Recipe recipe);
 
 	Recipe fetchRecipe(String name);

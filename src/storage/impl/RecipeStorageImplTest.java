@@ -16,14 +16,21 @@ public class RecipeStorageImplTest implements RecipeStorage {
 
 	private ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
 	private Log log = new Log();
-	private ChefStorage chefStorage = ChefStorageFactory.getStorage();
-	private IngredientStorage ingredientStorage = IngredientStorageFactory.getStorage();
+	private ChefStorage chefStorage;
+	private IngredientStorage ingredientStorage;
 
 	public RecipeStorageImplTest(){
+
+
+	}
+
+		public void setStorages(ChefStorage chefStorage,IngredientStorage ingredientStorage){
+		this.chefStorage=chefStorage;
+		this.ingredientStorage=ingredientStorage;
 		initArray();
 	}
 
-	private void initArray(){
+	 private void initArray(){
 		recipeList.add(new Recipe("Meatball Marinara",chefStorage.fetchChef("Magnusson")
 			,ingredientStorage.fetchIngredientType("Minced meat")));
 		recipeList.add(new Recipe("Tuna sandwich",chefStorage.fetchChef("Blackby")
@@ -51,7 +58,7 @@ public class RecipeStorageImplTest implements RecipeStorage {
 	public ArrayList<Recipe> fetchRecipe(Chef chef) {
 		ArrayList<Recipe> tmpArray = new ArrayList<Recipe>();
 		for(Recipe r : recipeList){
-			if(r.getRecipeChef().equals(chef)){
+			if(r.getRecipeChef().toString().equals(chef.toString())){
 				tmpArray.add(r);
 				log.write(String.format("%s fetched.",r));
 			}
@@ -63,7 +70,7 @@ public class RecipeStorageImplTest implements RecipeStorage {
 	public ArrayList<Recipe> fetchRecipe(IngredientType type) {
 		ArrayList<Recipe> tmpArray = new ArrayList<Recipe>();
 		for(Recipe r : recipeList){
-			if(r.getRecipePrimaryIngredientType().equals(type)){
+			if(r.getRecipePrimaryIngredientType().toString().equals(type.toString())){
 				tmpArray.add(r);
 				log.write(String.format("%s fetched.",r));
 			}
