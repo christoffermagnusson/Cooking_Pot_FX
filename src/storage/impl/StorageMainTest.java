@@ -22,20 +22,23 @@ public class StorageMainTest {
   }
 
   void test(){
-    
-    testPrintList(recipeStorage.fetchRecipe(ingredientStorage.fetchIngredientType("Minced meat")));
-    testPrintList(recipeStorage.fetchRecipe(chefStorage.fetchChef("Blackby")));
+
+    recipeStorage.setStorages(chefStorage,ingredientStorage);
 
     recipeStorage.storeRecipe(new Recipe("Vanilla Ice Cream",chefStorage.fetchChef("Ramsay")
       ,ingredientStorage.fetchIngredientType("Milk")));
 
-    recipeStorage.fetchRecipe("Vanilla Ice Cream");
-
+    Recipe test = recipeStorage.fetchRecipe("Vanilla Ice Cream");
+    ArrayList<Ingredient> testList = new ArrayList<Ingredient>();
+    testList.add(new Ingredient(ingredientStorage.fetchIngredientType("Milk"),200));
+    testList.add(new Ingredient(ingredientStorage.fetchIngredientType("Minced meat"),100));
+    ingredientStorage.storeIngredients(test,testList);
+    testPrintList(ingredientStorage.fetchIngredients(test).getIngredientList());
 
   }
-  void testPrintList(ArrayList<Recipe> list){
-    for(Recipe r : list){
-      System.out.println(r.toString());
+  void testPrintList(ArrayList<Ingredient> list){
+    for(Ingredient i : list){
+      System.out.println(i.toString());
     }
   }
 
