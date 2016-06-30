@@ -41,5 +41,8 @@ public class Ingredient {
 	public StringProperty ingredientNameProperty(){
 		return ingredientName;
 	}
+	public String toString(){
+		return String.format("%s",this.type.get().getName());
+	}
 
 }
