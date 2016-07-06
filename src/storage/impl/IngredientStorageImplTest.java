@@ -67,7 +67,10 @@ public class IngredientStorageImplTest implements IngredientStorage {
 
 	@Override
 	public ArrayList<IngredientType> fetchAllIngredientTypes() {
-
+		
+		for(IngrdientType it : typeArray){
+			log.write(String.format("%s fetched.",it.toString()));
+		}
 		return typeArray;
 	}
 
