@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import appl.controllers.MainApp;
+import domain.models.Chef;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
 import domain.models.Recipe;
@@ -43,11 +44,18 @@ public class RecipeListController implements Controller{
 	private ChefStorage chefStorage;
 	private IngredientStorage ingredientStorage;
 	private RecipeStorage recipeStorage;
+	private ObservableList<Recipe> recipeObsList;
 
 	public void setStorages(ChefStorage chefStorage,IngredientStorage ingredientStorage,RecipeStorage recipeStorage){
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
+
+	}
+	public void setRecipeListItems(Chef chef){
+		recipeObsList = FXCollections.observableArrayList(recipeStorage.fetchRecipe(chef));
+		recipeList.setItems(recipeObsList);
+
 	}
 
 	/**
@@ -56,11 +64,8 @@ public class RecipeListController implements Controller{
 	 */
 	@FXML
 	private void initialize(){
-		//recipeStorage.setStorages(chefStorage,ingredientStorage); // giving recipestorage same references to storages as this class.. might be handy to abstract another layer upward
-		ObservableList<Recipe> observableList = FXCollections.observableArrayList(recipeStorage.fetchRecipe(chefStorage.fetchChef("Blackby")));
-		recipeList.setItems(observableList);
+		recipeObsList = FXCollections.observableArrayList();
 		recipeList.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue) -> showRecipeDetails(newValue));
-
 
 		ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().ingredientNameProperty());
