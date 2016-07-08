@@ -1,5 +1,6 @@
 package storage.impl;
 
+import domain.handlers.IngredientListHandler;
 import domain.models.*;
 import storage.interfaces.ChefStorage;
 import storage.factories.ChefStorageFactory;
@@ -26,14 +27,14 @@ public class StorageMainTest {
     recipeStorage.setStorages(chefStorage,ingredientStorage);
 
     recipeStorage.storeRecipe(new Recipe("Vanilla Ice Cream",chefStorage.fetchChef("Ramsay")
-      ,ingredientStorage.fetchIngredientType("Milk")));
+      ,ingredientStorage.fetchIngredientType("Milk"),new IngredientListHandler(),"Cook it like you mean it"));
 
     Recipe test = recipeStorage.fetchRecipe("Vanilla Ice Cream");
     ArrayList<Ingredient> testList = new ArrayList<Ingredient>();
     testList.add(new Ingredient(ingredientStorage.fetchIngredientType("Milk"),200));
     testList.add(new Ingredient(ingredientStorage.fetchIngredientType("Minced meat"),100));
     ingredientStorage.storeIngredients(test,testList);
-    testPrintList(ingredientStorage.fetchIngredients(test).getIngredientList());
+    //testPrintList(ingredientStorage.fetchIngredients(test).getIngredientList());
 
   }
   void testPrintList(ArrayList<Ingredient> list){
