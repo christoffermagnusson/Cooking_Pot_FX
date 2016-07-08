@@ -1,6 +1,8 @@
 package storage.impl;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import domain.models.Ingredient;
 import domain.models.IngredientType;
@@ -9,13 +11,14 @@ import domain.handlers.IngredientListHandler;
 import storage.interfaces.IngredientStorage;
 import log.Log;
 
-public class IngredientStorageImplTest implements IngredientStorage {
+public class IngredientStorageImplTest extends Observable implements IngredientStorage {
 
 	private ArrayList<IngredientType> typeArray = new ArrayList<IngredientType>();
 	private ArrayList<Ingredient> ingredientArray = new ArrayList<Ingredient>();
 	private Log log = new Log();
 	private IngredientListHandler handler = null;
 	private ArrayList<IngredientListHandler> handlerList = new ArrayList<IngredientListHandler>();
+	private ArrayList<Observer> observerList = new ArrayList<Observer>();
 
 	public IngredientStorageImplTest(){
 		initArrays();
@@ -30,8 +33,12 @@ public class IngredientStorageImplTest implements IngredientStorage {
 
 	@Override
 	public void storeIngredientType(IngredientType type) {
+		if(!typeArray.contains(type)){
 		typeArray.add(type);
 		log.write(String.format("%s stored.",type));
+		notifyObservers(typeArray);
+		}
+
 
 	}
 
@@ -48,7 +55,7 @@ public class IngredientStorageImplTest implements IngredientStorage {
 
 	@Override
 	public void storeIngredients(Recipe recipe, ArrayList<Ingredient> ingredients) {
-		handler = new IngredientListHandler(recipe);
+		handler = recipe.getRecipeIngredientListHandler();
 		for(Ingredient i : ingredients){
 			handler.addIngredient(i);
 		}
@@ -57,11 +64,8 @@ public class IngredientStorageImplTest implements IngredientStorage {
 
 	@Override
 	public IngredientListHandler fetchIngredients(Recipe recipe) {
-		for(IngredientListHandler ilh : handlerList){
-			if(ilh.getRecipe().toString().equals(recipe.toString())){
-				return ilh;
-			}
-		}
+
+		// fetch an handler from list..
 		return null;
 	}
 
@@ -72,6 +76,23 @@ public class IngredientStorageImplTest implements IngredientStorage {
 			log.write(String.format("%s fetched.",it.toString()));
 		}
 		return typeArray;
+	}
+
+	@Override
+	public void addObserver(Observer obs) {
+		observerList.add(obs);
+
+	}
+
+	@Override
+	public void notifyObservers(Object obj) {
+		for(Observer obs : observerList){
+			obs.update(this,obj);
+		}
+	}
+	@Override
+	public void deleteObservers(){
+		observerList.clear();
 	}
 
 }

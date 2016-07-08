@@ -6,7 +6,7 @@ import domain.models.Ingredient;
 import domain.models.Recipe;
 import java.util.ArrayList;
 
-public interface IngredientStorage {
+public interface IngredientStorage extends Observable{
 
 	void storeIngredientType(IngredientType type);
 

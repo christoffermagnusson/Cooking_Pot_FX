@@ -3,7 +3,7 @@ package storage.interfaces;
 import domain.models.*;
 import java.util.ArrayList;
 
-public interface RecipeStorage {
+public interface RecipeStorage extends Observable{
 
 	void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage);
 

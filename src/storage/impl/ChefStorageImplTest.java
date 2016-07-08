@@ -1,14 +1,17 @@
 package storage.impl;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import domain.models.Chef;
 import storage.interfaces.ChefStorage;
 import log.Log;
 
-public class ChefStorageImplTest implements ChefStorage {
+public class ChefStorageImplTest extends Observable implements ChefStorage {
 
 	ArrayList<Chef> chefList = new ArrayList<Chef>();
+	ArrayList<Observer> observerList = new ArrayList<Observer>();
 	Log log = new Log();
 
 	public ChefStorageImplTest(){
@@ -50,4 +53,20 @@ public class ChefStorageImplTest implements ChefStorage {
 		return chefList;
 	}
 
+	@Override
+	public void addObserver(Observer obs) {
+		observerList.add(obs);
+
+	}
+
+	@Override
+	public void notifyObservers(Object obj) {
+		for(Observer obs : observerList){
+			obs.update(this,obj);
+		}
+	}
+	@Override
+	public void deleteObservers(){
+		observerList.clear();
+	}
 }
