@@ -12,12 +12,14 @@ public class Ingredient {
 	private final ObjectProperty<IngredientType> type;
 	private final IntegerProperty amount;
 	private final StringProperty ingredientName;
+	private final StringProperty measurementType;
 
 
 	public Ingredient(IngredientType type, int amount){
 		this.type = new SimpleObjectProperty<IngredientType>(type);
 		this.amount = new SimpleIntegerProperty(amount);
 		this.ingredientName = new SimpleStringProperty(type.getName());
+		this.measurementType = new SimpleStringProperty(type.measurement());
 	}
 
 	public IngredientType getType(){
@@ -40,6 +42,9 @@ public class Ingredient {
 	}
 	public StringProperty ingredientNameProperty(){
 		return ingredientName;
+	}
+	public StringProperty measurementProperty(){
+		return this.measurementType;
 	}
 	public String toString(){
 		return String.format("%s",this.type.get().getName());
