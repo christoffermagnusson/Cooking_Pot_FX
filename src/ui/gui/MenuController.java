@@ -6,6 +6,10 @@ import storage.interfaces.RecipeStorage;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Menu;
+
+import java.util.Observable;
+import java.util.Observer;
+
 import appl.controllers.MainApp;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,7 +20,7 @@ import javafx.fxml.FXML;
 import log.Log;
 
 
-public class MenuController implements Controller {
+public class MenuController implements Controller,Observer {
 
 	private ChefStorage chefStorage;
 	private IngredientStorage ingredientStorage;
@@ -59,6 +63,11 @@ public class MenuController implements Controller {
 				Platform.exit();
 			}
 		});
+
+	}
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// Necessary evil...
 
 	}
 
