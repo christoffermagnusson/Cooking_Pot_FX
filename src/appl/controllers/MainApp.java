@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import log.Log;
 import storage.factories.ChefStorageFactory;
 import storage.factories.IngredientStorageFactory;
 import storage.factories.RecipeStorageFactory;
@@ -19,9 +20,11 @@ import storage.interfaces.RecipeStorage;
 import ui.gui.RecipeListController;
 import ui.gui.Controller;
 import ui.gui.MenuController;
+import ui.gui.NewIngredientTypeDialogController;
 import ui.gui.NewRecipeFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.Observer;
 
 public class MainApp extends Application{
 
@@ -35,9 +38,17 @@ public class MainApp extends Application{
 	private IngredientStorage ingredientStorage = IngredientStorageFactory.getStorage();
 	private RecipeStorage recipeStorage = RecipeStorageFactory.getStorage();
 	private Session session;
+	Log log = new Log();
 
 	private void initStorages(Controller controller){
 		controller.setStorages(this.chefStorage,this.ingredientStorage,this.recipeStorage);
+		try{
+    this.chefStorage.addObserver((Observer) controller);
+    this.ingredientStorage.addObserver((Observer) controller);
+    this.recipeStorage.addObserver((Observer) controller);
+	}catch(ClassCastException cce){
+		log.write("Class is not observer");
+	}
 	}
 
   public void start(Stage stage){
@@ -51,6 +62,7 @@ public class MainApp extends Application{
 
   }
 
+
   public void initRootLayout(){
     try{
       FXMLLoader loader = new FXMLLoader();
@@ -58,6 +70,7 @@ public class MainApp extends Application{
       rootLayout = (BorderPane) loader.load();
 
       Scene scene = new Scene(rootLayout);
+      this.primaryStage.setMaximized(true);
       this.primaryStage.setScene(scene);
       this.primaryStage.show();
 
@@ -86,6 +99,7 @@ public class MainApp extends Application{
       controller.setMainApp(this);
       initStorages(controller);
 
+
       controller.setRecipeListItems(session.getChef());
 
 
@@ -107,12 +121,33 @@ public class MainApp extends Application{
 		  controller.setMainApp(this);
 		  initStorages(controller);
 
-		  controller.initPrimaryIngredientList();
+		  controller.initComponents();
 	  }
 	  catch(IOException ioe){
 		  ioe.printStackTrace();
 	  }
   }
+  public void showNewIngredientTypeDialog(){
+	  try{
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(MainApp.class.getResource("../../ui/gui/NewIngredientTypeDialog.fxml"));
+		  AnchorPane newIngredientTypeDialog = (AnchorPane) loader.load();
+
+		  Stage tmpStage = new Stage();
+		  tmpStage.setTitle("Create new ingredient type..");
+		  Scene tmpScene = new Scene(newIngredientTypeDialog);
+		  tmpStage.setScene(tmpScene);
+		  tmpStage.show();
+
+		  NewIngredientTypeDialogController controller = loader.getController();
+		  controller.setMainApp(this);
+		  initStorages(controller);
+	  }
+	  catch(IOException ioe){
+		  ioe.printStackTrace();
+	  }
+  }
+
 
   public Stage getPrimaryStage(){
     return this.primaryStage;
