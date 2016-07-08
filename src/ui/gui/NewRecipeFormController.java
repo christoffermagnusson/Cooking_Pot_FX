@@ -1,10 +1,14 @@
 package ui.gui;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import appl.controllers.MainApp;
+import domain.handlers.IngredientListHandler;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
+import domain.models.Recipe;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,7 +22,7 @@ import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
 import javafx.scene.control.TextArea;
 
-public class NewRecipeFormController implements Controller{
+public class NewRecipeFormController implements Controller,Observer{
 
 	// Recipe details pane
 	@FXML
@@ -30,7 +34,7 @@ public class NewRecipeFormController implements Controller{
 
 	// Ingredients pane
 	@FXML
-	private ListView<Ingredient> pickList;
+	private ListView<IngredientType> pickList;
 	@FXML
 	private ListView<Ingredient> addedList;
 	@FXML
@@ -57,23 +61,63 @@ public class NewRecipeFormController implements Controller{
 	private IngredientStorage ingredientStorage;
 	private RecipeStorage recipeStorage;
 
-	private ObservableList<IngredientType> primaryIngredientObsList;
+	private ObservableList<IngredientType> ingredientTypeObsList;
+	private ObservableList<Ingredient> ingredientObsList;
 	private IngredientType primaryType;
+	private IngredientListHandler ingredientListHandler = new IngredientListHandler();
 	Log log = new Log();
 
 	@FXML
 	private void initialize(){
+		ingredientObsList = FXCollections.observableArrayList();
+		addedList.setItems(ingredientObsList);
 
+		ingredientTypeObsList = FXCollections.observableArrayList();
+		pickList.setItems(ingredientTypeObsList);
 
 	}
-
-	public void initPrimaryIngredientList(){
-		ArrayList<IngredientType> typeArray = ingredientStorage.fetchAllIngredientTypes();
-		primaryIngredientObsList = FXCollections.observableArrayList(typeArray);
-		for(IngredientType it : primaryIngredientObsList){
-			primaryIngredientBox.getItems().add(it);
+	@Override
+	public void update(Observable obs,Object obj){
+		if(obs instanceof IngredientStorage){
+			try{
+				ArrayList<IngredientType> typeArray = (ArrayList<IngredientType>) obj;
+				setIngredientTypeLists(typeArray);
+			}catch(ClassCastException cce){
+				ArrayList<Ingredient> ingredientArray = (ArrayList<Ingredient>) obj;
+			}
+		}
+		else if(obs instanceof ChefStorage){
+			// not needed perhaps in this occasion?
+		}
+		else if(obs instanceof RecipeStorage){
+			// not needed perhaps in this occasion?
 		}
 	}
+
+	public void initComponents(){
+		setIngredientTypeLists(ingredientStorage.fetchAllIngredientTypes());
+
+
+	}
+	private void setIngredientTypeLists(ArrayList<IngredientType> typeArray){
+		ingredientTypeObsList.clear();
+		for(IngredientType it : typeArray){
+			if(!primaryIngredientBox.getItems().contains(it)){
+			primaryIngredientBox.getItems().add(it);
+			}
+			ingredientTypeObsList.add(it);
+		}
+
+	}
+	private void setIngredientList(ArrayList<Ingredient> ingredientArray){
+		for(Ingredient i : ingredientArray){
+			if(!ingredientObsList.contains(i)){
+				ingredientObsList.add(i);
+			}
+		}
+	}
+
+
 
 
 
@@ -89,14 +133,35 @@ public class NewRecipeFormController implements Controller{
 		this.recipeStorage=recipeStorage;
 
 	}
+	// ingredienthandlers
+	@FXML
+	private void handleNewIngredientTypeButton(){
+		mainApp.showNewIngredientTypeDialog();
+	}
+	@FXML
+	private void handleAddToRecipeButton(){
+		IngredientType tmpType = pickList.getSelectionModel().getSelectedItem();
+		Ingredient ingredient = new Ingredient(tmpType,0);
 
+		if(ingredientListHandler.checkList(ingredient)==true){
+		ingredientListHandler.addIngredient(ingredient);
+		setIngredientList(ingredientListHandler.getIngredientList());
+		}
+		else{
+			log.write(String.format("%s already added to recipe",ingredient)); // add dialog with user!
+		}
+
+	}
+
+	// lowest buttonbar handlers
 	@FXML
 	private void handleBackButton(){
 		mainApp.showRecipeListView();
 	}
 	@FXML
 	private void handleSaveButton(){
-
+		recipeStorage.storeRecipe(new Recipe(recipeNameField.getText(),mainApp.getSession().getChef(),primaryIngredientBox.getValue()
+				,ingredientListHandler,descriptionArea.getText()));
 	}
 
 }

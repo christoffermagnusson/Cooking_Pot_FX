@@ -67,7 +67,7 @@
                                                       <Insets top="20.0" />
                                                    </HBox.margin>
                                                 </ComboBox>
-                                                <Button fx:id="detailsNewIngredientButton" mnemonicParsing="false" text="New..">
+                                                <Button fx:id="detailsNewIngredientButton" mnemonicParsing="false" onAction="#handleNewIngredientTypeButton" text="New..">
                                                    <HBox.margin>
                                                       <Insets left="10.0" top="20.0" />
                                                    </HBox.margin>
@@ -108,8 +108,8 @@
                                           </ScrollPane>
                                           <ButtonBar maxWidth="-Infinity" prefHeight="40.0" prefWidth="250.0">
                                             <buttons>
-                                                <Button fx:id="addToRecipeButton" mnemonicParsing="false" text="Add to recipe" />
-                                              <Button fx:id="ingredientNewButton" mnemonicParsing="false" text="New.." />
+                                                <Button fx:id="addToRecipeButton" mnemonicParsing="false" onAction="#handleAddToRecipeButton" text="Add to recipe" />
+                                              <Button fx:id="ingredientNewButton" mnemonicParsing="false" onAction="#handleNewIngredientTypeButton" text="New.." />
                                             </buttons>
                                              <VBox.margin>
                                                 <Insets />
@@ -164,7 +164,7 @@
             </Accordion>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.rowIndex="1">
               <buttons>
-                <Button fx:id="saveRecipeButton" mnemonicParsing="false" text="Save" />
+                <Button fx:id="saveRecipeButton" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
                   <Button fx:id="undoButton" mnemonicParsing="false" text="Undo" />
                   <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButton" text="Back" />
               </buttons>
