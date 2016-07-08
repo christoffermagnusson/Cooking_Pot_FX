@@ -2,6 +2,7 @@ package domain.models;
 
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
+import domain.handlers.IngredientListHandler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -10,11 +11,33 @@ public class Recipe {
 	private final StringProperty recipeName;
 	private final ObjectProperty<Chef> recipeChef;
 	private final ObjectProperty<IngredientType> recipePrimaryIngredientType;
+	private final ObjectProperty<IngredientListHandler> recipeIngredientListHandler;
+	private final StringProperty description;
 
-	public Recipe(String name, Chef chef, IngredientType primaryIngredientType){
+	public Recipe(String name, Chef chef, IngredientType primaryIngredientType,IngredientListHandler list,String description){
 		this.recipeName = new SimpleStringProperty(name);
 		this.recipeChef = new SimpleObjectProperty<Chef>(chef);
 		this.recipePrimaryIngredientType = new SimpleObjectProperty<IngredientType>(primaryIngredientType);
+		this.recipeIngredientListHandler = new SimpleObjectProperty<IngredientListHandler>(list);
+		this.description = new SimpleStringProperty(description);
+	}
+	public StringProperty recipeDescriptionProperty(){
+		return description;
+	}
+	public String getDescription(){
+		return description.get();
+	}
+	public void setDescription(String description){
+		this.description.set(description);
+	}
+	public ObjectProperty<IngredientListHandler> recipeIngredientListHandlerProperty(){
+		return this.recipeIngredientListHandler;
+	}
+	public IngredientListHandler getRecipeIngredientListHandler(){
+		return this.recipeIngredientListHandler.get();
+	}
+	public void setRecipeIngredientListHandler(IngredientListHandler handler){
+		this.recipeIngredientListHandler.set(handler);
 	}
 
 	public StringProperty recipeNameProperty() {
