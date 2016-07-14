@@ -10,10 +10,17 @@ public class Chef {
 
 	private final StringProperty firstName;
 	private final StringProperty lastName;
+	private int id;
 
 	public Chef(String firstName, String lastName){
 		this.firstName = new SimpleStringProperty(firstName);
 		this.lastName = new SimpleStringProperty(lastName);
+	}
+	public void setId(int id){
+		this.id=id;
+	}
+	public int getId(){
+		return this.id;
 	}
 
 	public StringProperty firstNameProperty() {

@@ -12,6 +12,8 @@ public class IngredientListHandler {
 	ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 	Log log = new Log();
 
+	private int id;
+
 	public IngredientListHandler(){
 
 	}
@@ -31,6 +33,12 @@ public class IngredientListHandler {
 			}
 		}
 		return true;
+	}
+	public void setId(int id){
+		this.id=id;
+	}
+	public int getId(){
+		return this.id;
 	}
 
 }

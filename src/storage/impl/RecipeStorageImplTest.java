@@ -35,10 +35,9 @@ public class RecipeStorageImplTest extends Observable implements RecipeStorage {
 	}
 
 	 private void initArray(){
-		recipeList.add(new Recipe("Meatball Marinara",chefStorage.fetchChef("Magnusson")
+		recipeList.add(new Recipe("Meatball Marinara",chefStorage.fetchChef("Roodro")
 			,ingredientStorage.fetchIngredientType("Minced meat"),new IngredientListHandler(),"Cook it slowly"));
-		recipeList.add(new Recipe("Tuna sandwich",chefStorage.fetchChef("Blackby")
-			,ingredientStorage.fetchIngredientType("Tuna"),new IngredientListHandler(),"Cook it fast"));
+
 	}
 
 	@Override

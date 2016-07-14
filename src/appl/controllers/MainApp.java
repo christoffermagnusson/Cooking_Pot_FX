@@ -1,6 +1,7 @@
 package appl.controllers;
 
 import java.io.IOException;
+import storage.util.DBConnection;
 
 import domain.models.Recipe;
 import domain.models.Session;
@@ -52,12 +53,15 @@ public class MainApp extends Application{
 	}
 
   public void start(Stage stage){
+
+
 	  System.setProperty("glass.accessible.force", "false"); // temporary workaround because of bug when using a touchscreen computer with windows 10..
     this.primaryStage = stage;
     this.primaryStage.setTitle("Cooking_Pot_FX");
 
     recipeStorage.setStorages(chefStorage,ingredientStorage); // not sure if this is needed later on..inits storages so that this one works properly
-    session = new Session(chefStorage.fetchChef("Magnusson"));
+    session = new Session(chefStorage.fetchChef("Roodro"));
+    System.out.println("Session chef id is : " + session.getChef().getId());
     initRootLayout();
 
   }
