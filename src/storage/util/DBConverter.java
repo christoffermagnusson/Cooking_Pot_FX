@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import domain.models.*;
+import domain.handlers.*;
 import log.Log;
 
 public class DBConverter {
@@ -62,6 +63,7 @@ public class DBConverter {
 			while(res.next()){
 				type = new IngredientType(res.getString(1),res.getString(2));
 			}
+			res.close();
 		}catch(SQLException se){
 			throw new StorageException(se);
 		}finally{
@@ -85,4 +87,71 @@ public class DBConverter {
 			return array;
 		}
 	}
+	public static int getId(ResultSet res) throws StorageException{
+		int id = 0;
+		try{
+			while(res.next()){
+			 id = res.getInt(1);
+			}
+			res.close();
+			}
+			catch(SQLException se){
+				throw new StorageException(se);
+			}
+			finally{
+				
+			}
+			return id;
+	}
+	public static ArrayList<Ingredient> toIngredientList(ResultSet res)throws StorageException{
+		ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
+		try{
+			while(res.next()){
+				String typeQuery = String.format("SELECT * FROM ingredienttype WHERE name ='%s'"
+					,res.getString(1));
+				ResultSet typeRes = DBConnection.getInstance().execQuery(typeQuery);
+				IngredientType type = toIngredientType(typeRes);
+				
+				ingredientList.add(new Ingredient(type,res.getInt(2)));
+				
+			}
+			res.close();
+		}
+		catch(SQLException se){
+			throw new StorageException(se);
+		}
+		return ingredientList;
+	}
+	public static Recipe toRecipe(ResultSet res)throws StorageException{
+		Recipe recipe = null;
+		try{
+			
+			while(res.next()){
+				String typeName = res.getString(2);
+			ResultSet typeSet = DBConnection.getInstance().execQuery(String.format("SELECT * FROM ingredienttype WHERE name = '%s'"
+				,typeName));
+			IngredientType type = toIngredientType(typeSet);
+
+			int chefId = res.getInt(4);
+			ResultSet chefSet = DBConnection.getInstance().execQuery(String.format("SELECT * FROM chef WHERE id = %d"
+				,chefId));
+			Chef chef = toChef(chefSet);
+
+			IngredientListHandler handler = new IngredientListHandler();
+			handler.setId(res.getInt(5));
+
+			recipe = new Recipe(res.getString(1)
+													,chef
+													,type
+													,handler
+													,res.getString(3));
+			}
+			res.close();
+		}
+		catch(SQLException se){
+			throw new StorageException(se);
+		}
+		return recipe;
+	}
+
 }
