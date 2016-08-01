@@ -93,15 +93,62 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 	}
 	}
 
+	/**
+	*		Stores ingredients associated with specified recipe. 
+	*		@args 	recipe 				Recipe whoms ingredients shall be stored.
+	*		@args 	ingredients 	List of ingredients taken from input from the user when creating a new recipe. 
+	*													possibly from GUI or controllers.
+	*/
 	@Override
 	public void storeIngredients(Recipe recipe, ArrayList<Ingredient> ingredients) {
-
+		try{
+			if(recipe.getRecipeIngredientListHandler().getId()==0){
+				String insertList = String.format("INSERT INTO ingredientlist (recipename) VALUES('%s')",recipe.getRecipeName());
+				DBConnection.getInstance().update(insertList);
+				int handlerId = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery("SELECT currval('ingredientlist_id_seq')"));
+				recipe.getRecipeIngredientListHandler().setId(handlerId);
+				for(Ingredient i : ingredients){
+					String insertIngredient = String.format("INSERT INTO handler VALUES('%s','%d','%d')"
+						,i.getType().getName()
+						,i.getAmount()
+						,handlerId);
+					DBConnection.getInstance().update(insertIngredient);
+				}
+			}
+		}
+		catch(NullPointerException npe){
+			npe.printStackTrace();
+			Log.write(npe.getMessage());
+		}
+		catch(StorageException se){
+			Log.write("test" +se.getMessage());
+		}
 	}
 
+	/**
+	*		Initiates and returns ingredients associated with specified recipe
+	*		@args recipe 	Recipe whoms ingredients to be fetched. Cannot be done with fresh recipe before 
+	*									it has been stored to storage.
+	*		@return handler 	Handler to be returned. Contains all ingredients associated with specified recipe.
+	**/
 	@Override
 	public IngredientListHandler fetchIngredients(Recipe recipe) {
-		// TODO Auto-generated method stub
-		return null;
+		IngredientListHandler handler = recipe.getRecipeIngredientListHandler();
+		ArrayList<Ingredient> ingredientList = null;
+		try{
+			String fetchString = String.format("SELECT * FROM handler WHERE listid = %d"
+				,handler.getId());
+
+			ingredientList = DBConverter.getInstance().toIngredientList(DBConnection.getInstance().execQuery(fetchString));
+			for(Ingredient i : ingredientList){
+				handler.addIngredient(i);
+			}
+		}
+		catch(StorageException se){
+			Log.write(se.getMessage());
+		}
+		return handler;
+		
 	}
 
 }
