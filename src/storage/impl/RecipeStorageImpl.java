@@ -46,6 +46,10 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 
 	}
 
+	/**
+	*		Inserts new or updates existing recipes. Checks if recipe exists in db: if exist = update; 
+	*		if not exists = insert. Remember to setID when fetching.
+	**/
 	@Override
 	public void storeRecipe(Recipe recipe) {
 		try{
@@ -97,8 +101,16 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 
 	@Override
 	public ArrayList<Recipe> fetchRecipe(Chef chef) {
-		
-		return null;
+		ArrayList<Recipe> recipeList = null;
+		try{
+			String fetchString = String.format("SELECT * FROM recipe WHERE chefid = %d"
+				,chef.getId());
+			 recipeList = DBConverter.getInstance().toRecipeList(DBConnection.getInstance().execQuery(fetchString));
+		}
+		catch(StorageException se){
+			Log.write(se.getMessage());
+		}
+		return recipeList;
 	}
 
 	@Override
