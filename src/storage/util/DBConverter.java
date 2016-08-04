@@ -154,4 +154,36 @@ public class DBConverter {
 		return recipe;
 	}
 
+	public static ArrayList<Recipe> toRecipeList(ResultSet res)throws StorageException{
+		ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+		try{
+
+			while(res.next()){
+				String typeName = res.getString(2);
+				ResultSet typeSet = DBConnection.getInstance().execQuery(String.format("SELECT * FROM ingredienttype WHERE name = '%s'"
+					,typeName));
+				IngredientType type = toIngredientType(typeSet);
+
+				int chefId = res.getInt(4);
+				ResultSet chefSet = DBConnection.getInstance().execQuery(String.format("SELECT * FROM chef WHERE id = %d"
+					,chefId));
+				Chef chef = toChef(chefSet);
+
+				IngredientListHandler handler = new IngredientListHandler();
+				handler.setId(res.getInt(5));
+
+				recipeList.add(new Recipe(res.getString(1)
+																	,chef
+																	,type
+																	,handler
+																	,res.getString(3)));
+			}
+			res.close();
+		}
+		catch(SQLException se){
+			throw new StorageException(se);
+		}
+		return recipeList;
+	}
+
 }
