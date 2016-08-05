@@ -145,6 +145,8 @@ public class NewRecipeFormController implements Controller,Observer{
 
 		if(ingredientListHandler.checkList(ingredient)==true){
 		ingredientListHandler.addIngredient(ingredient);
+
+		mainApp.showAddToRecipeDialog(ingredientListHandler);
 		setIngredientList(ingredientListHandler.getIngredientList());
 		}
 		else{
@@ -160,8 +162,14 @@ public class NewRecipeFormController implements Controller,Observer{
 	}
 	@FXML
 	private void handleSaveButton(){
-		recipeStorage.storeRecipe(new Recipe(recipeNameField.getText(),mainApp.getSession().getChef(),primaryIngredientBox.getValue()
-				,ingredientListHandler,descriptionArea.getText()));
+		Recipe recipe = new Recipe(recipeNameField.getText()
+									,mainApp.getSession().getChef()
+									,primaryIngredientBox.getValue()
+									,ingredientListHandler 				// uses instance variable ..maybe not do that?
+									,descriptionArea.getText());
+
+		ingredientStorage.storeIngredients(recipe,recipe.getRecipeIngredientListHandler().getIngredientList());
+		recipeStorage.storeRecipe(recipe);
 	}
 
 }
