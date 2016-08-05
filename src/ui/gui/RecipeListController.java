@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import appl.controllers.MainApp;
+import domain.handlers.IngredientListHandler;
 import domain.models.Chef;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
@@ -97,15 +98,21 @@ public class RecipeListController implements Controller,Observer{
 	private void showRecipeDetails(Recipe recipe){
 		if(recipe != null){
 			ingredientObsList.clear();
+			IngredientListHandler handler = null; // holder reference , same as the recipes handler.
 
 			recipeNameLabel.setText(recipe.getRecipeName());
 			primaryIngredientLabel.setText(recipe.getRecipePrimaryIngredientType().toString());
 			chefNameLabel.setText(recipe.getRecipeChef().toString());
 
 			descriptionArea.setText(recipe.getDescription());
+			System.out.println("ID: "+recipe.getRecipeIngredientListHandler().getId());
+			handler = ingredientStorage.fetchIngredients(recipe); // perhaps not the best solution ??
 
-			for(Ingredient i : recipe.getRecipeIngredientListHandler().getIngredientList()){
+
+
+			for(Ingredient i : handler.getIngredientList()){
 				ingredientObsList.add(i);
+				System.out.println(i.toString());
 			}
 
 			// here goes ingredientlist associated with recipe as well.

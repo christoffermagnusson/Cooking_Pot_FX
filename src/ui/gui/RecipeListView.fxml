@@ -124,7 +124,7 @@
                                           <Label text="Chef name" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
-                                    <TextArea fx:id="descriptionArea" editable="false" layoutY="97.0" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" />
+                                    <TextArea fx:id="descriptionArea" editable="false" layoutY="97.0" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" />
                                  </children>
                               </AnchorPane>
                            </content>
