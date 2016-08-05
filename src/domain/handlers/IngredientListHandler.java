@@ -14,6 +14,7 @@ public class IngredientListHandler {
 
 	private int id;
 
+
 	public IngredientListHandler(){
 
 	}
@@ -23,8 +24,18 @@ public class IngredientListHandler {
 			ingredientList.add(ingredient);
 			}
 
+	public void clearIngredients(){
+		ingredientList.clear();
+	}
+
 	public ArrayList<Ingredient> getIngredientList(){
 		return ingredientList;
+	}
+	public Ingredient getLatestAdded(){
+		return ingredientList.get(ingredientList.size()-1);
+	}
+	public void deleteLatest(){
+		ingredientList.remove(ingredientList.get(ingredientList.size()-1));
 	}
 	public boolean checkList(Ingredient ingredient){
 		for(Ingredient i : ingredientList){
