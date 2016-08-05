@@ -2,7 +2,9 @@ package appl.controllers;
 
 import java.io.IOException;
 import storage.util.DBConnection;
-
+import domain.handlers.IngredientListHandler;
+import domain.models.Ingredient;
+import domain.models.IngredientType;
 import domain.models.Recipe;
 import domain.models.Session;
 import javafx.scene.Scene;
@@ -19,6 +21,7 @@ import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
 import ui.gui.RecipeListController;
+import ui.gui.AddToRecipeDialogController;
 import ui.gui.Controller;
 import ui.gui.MenuController;
 import ui.gui.NewIngredientTypeDialogController;
@@ -146,6 +149,31 @@ public class MainApp extends Application{
 		  NewIngredientTypeDialogController controller = loader.getController();
 		  controller.setMainApp(this);
 		  initStorages(controller);
+	  }
+	  catch(IOException ioe){
+		  ioe.printStackTrace();
+	  }
+  }
+
+  public void showAddToRecipeDialog(IngredientListHandler handler){
+	  try{
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(MainApp.class.getResource("../../ui/gui/AddToRecipeDialog.fxml"));
+		  AnchorPane addToRecipeDialog = (AnchorPane) loader.load();
+
+		  Stage tmpStage = new Stage();
+		  tmpStage.setTitle("Specify amount to add..");
+		  Scene tmpScene = new Scene(addToRecipeDialog);
+		  tmpStage.setScene(tmpScene);
+
+
+		  AddToRecipeDialogController controller = loader.getController();
+		  controller.setMainApp(this);
+		  controller.setHandler(handler);
+		  controller.initComponents();
+		  initStorages(controller);
+		  tmpStage.showAndWait(); // Thread waits until dialog is finished.
+
 	  }
 	  catch(IOException ioe){
 		  ioe.printStackTrace();
