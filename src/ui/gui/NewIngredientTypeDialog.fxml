@@ -65,6 +65,11 @@
                               <Insets left="185.0" top="15.0" />
                            </VBox.margin>
                         </Button>
+                        <Label fx:id="successLabel" text="Label" visible="false">
+                           <VBox.margin>
+                              <Insets left="140.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
                         <Label fx:id="errorLabel" text="All fields must be filled in.." visible="false">
                            <VBox.margin>
                               <Insets left="140.0" top="10.0" />
