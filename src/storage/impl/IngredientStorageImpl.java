@@ -54,6 +54,9 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 		catch(StorageException se){
 			Log.write(se.getMessage());
 		}
+		finally{
+			notifyObservers(fetchAllIngredientTypes());
+		}
 	}
 
 	@Override
@@ -94,9 +97,9 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 	}
 
 	/**
-	*		Stores ingredients associated with specified recipe. 
+	*		Stores ingredients associated with specified recipe.
 	*		@args 	recipe 				Recipe whoms ingredients shall be stored.
-	*		@args 	ingredients 	List of ingredients taken from input from the user when creating a new recipe. 
+	*		@args 	ingredients 	List of ingredients taken from input from the user when creating a new recipe.
 	*													possibly from GUI or controllers.
 	*/
 	@Override
@@ -127,13 +130,14 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 
 	/**
 	*		Initiates and returns ingredients associated with specified recipe
-	*		@args recipe 	Recipe whoms ingredients to be fetched. Cannot be done with fresh recipe before 
+	*		@args recipe 	Recipe whoms ingredients to be fetched. Cannot be done with fresh recipe before
 	*									it has been stored to storage.
 	*		@return handler 	Handler to be returned. Contains all ingredients associated with specified recipe.
 	**/
 	@Override
 	public IngredientListHandler fetchIngredients(Recipe recipe) {
 		IngredientListHandler handler = recipe.getRecipeIngredientListHandler();
+		handler.clearIngredients(); // need to clear list before fetching ingredients each time to avoid redundant data
 		ArrayList<Ingredient> ingredientList = null;
 		try{
 			String fetchString = String.format("SELECT * FROM handler WHERE listid = %d"
@@ -148,7 +152,7 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 			Log.write(se.getMessage());
 		}
 		return handler;
-		
+
 	}
 
 }
