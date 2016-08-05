@@ -25,6 +25,8 @@ public class NewIngredientTypeDialogController implements Controller {
 	private Label measurementFieldErrorLabel;
 	@FXML
 	private Label errorLabel;
+	@FXML
+	private Label successLabel;
 	private ArrayList<TextField> fieldArray = new ArrayList<TextField>();
 
 	private ChefStorage chefStorage;
@@ -50,8 +52,13 @@ public class NewIngredientTypeDialogController implements Controller {
 	@FXML
 	private void handleAddButton(){
 		hideLabels();
+		successLabel.setVisible(false);
 		if(ver.verify(fieldArray)==true){
 		ingredientStorage.storeIngredientType(new IngredientType(nameField.getText(),measurementField.getText()));
+		successLabel.setText(String.format("Ingredienttype %s added.",nameField.getText()));
+		successLabel.setVisible(true);
+		nameField.setText("");
+		measurementField.setText("");
 		}
 		else{
 			errorLabel.setVisible(true);
@@ -69,6 +76,7 @@ public class NewIngredientTypeDialogController implements Controller {
 		errorLabel.setVisible(false);
 		nameFieldErrorLabel.setVisible(false);
 		measurementFieldErrorLabel.setVisible(false);
+
 	}
 
 	public void setMainApp(MainApp mainApp){
