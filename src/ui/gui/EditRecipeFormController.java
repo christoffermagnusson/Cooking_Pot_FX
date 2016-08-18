@@ -12,6 +12,8 @@ import domain.models.Recipe;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -95,6 +97,7 @@ public class EditRecipeFormController implements Controller, Observer {
 		this.recipe=recipe;
 	}
 	public void initComponents(){
+		setIngredientListHandler();
 		recipeNameField.setText(recipe.getRecipeName());
 		setPrimaryIngredient();
 
@@ -104,6 +107,12 @@ public class EditRecipeFormController implements Controller, Observer {
 		setIngredientList(ingredientArray);
 
 		descriptionArea.setText(recipe.getDescription());  ///// CONTINUE HERE !!, CONTINUE with displaying and passing recipe for editing.
+	}
+	private void clearComponents(){
+		recipeNameField.setText("");
+		primaryIngredientBox.setValue(null);
+		setIngredientList(null);
+		descriptionArea.setText("");
 	}
 	private void setIngredientTypeLists(ArrayList<IngredientType> typeArray){
 		ingredientTypeObsList.clear();
@@ -125,6 +134,9 @@ public class EditRecipeFormController implements Controller, Observer {
 	private void setPrimaryIngredient(){
 		primaryIngredientBox.setValue(recipe.getRecipePrimaryIngredientType());
 	}
+	private void setIngredientListHandler(){
+		this.ingredientListHandler=recipe.getRecipeIngredientListHandler();
+	}
 
 	@FXML
 	private void initialize(){
@@ -137,27 +149,64 @@ public class EditRecipeFormController implements Controller, Observer {
 
 	@FXML
 	private void handleNewIngredientTypeButton(){
-
+		mainApp.showNewIngredientTypeDialog();
 	}
 	@FXML
 	private void handleRemoveFromRecipeButton(){
+		Ingredient toBeRemoved = addedList.getSelectionModel().getSelectedItem();
+		ingredientListHandler.deleteIngredient(toBeRemoved);
+		setIngredientList(ingredientListHandler.getIngredientList());
 
 	}
 	@FXML
 	private void handleAddToRecipeButton(){
+		IngredientType tmpType = pickList.getSelectionModel().getSelectedItem();
+		Ingredient ingredient = new Ingredient(tmpType,0);
 
+		if(ingredientListHandler.checkList(ingredient)==true){
+		ingredientListHandler.addIngredient(ingredient);
+
+		mainApp.showAddToRecipeDialog(ingredientListHandler,null);
+		setIngredientList(ingredientListHandler.getIngredientList());
+		}
+		else{
+			log.write(String.format("%s already added to recipe",ingredient)); // add dialog with user!
+		}
 	}
 	@FXML
 	private void handleIngredientAmountButton(){
-
+		try{
+			Ingredient toBeEdited = addedList.getSelectionModel().getSelectedItem();
+			mainApp.showAddToRecipeDialog(ingredientListHandler,toBeEdited);
+		}
+		catch(NullPointerException npe){
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No selected item..");
+			alert.setHeaderText("Please mark your selection to proceed with editing.");
+			alert.showAndWait();
+		}
 	}
 	@FXML
 	private void handleSaveChangesButton(){
+		recipeStorage.storeRecipe(recipe);
+		ingredientStorage.storeIngredients(recipe,ingredientListHandler.getIngredientList());
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Recipe updated");
+		alert.setHeaderText(String.format("Recipe for %s was successfully updated",recipe.getRecipeName()));
+		alert.showAndWait();
 
 	}
 	@FXML
 	private void handleDeleteRecipeButton(){
+		recipeStorage.deleteRecipe(recipe);
+		clearComponents();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Recipe deleted");
+		alert.setHeaderText(String.format("Recipe for %s was successfully deleted!",recipe.getRecipeName()));
+		alert.showAndWait();
 
+		mainApp.setCurrentRecipe(null);
+		mainApp.showRecipeListView();
 	}
 	@FXML
 	private void handleBackButton(){
