@@ -98,4 +98,10 @@ public class RecipeStorageImplTest extends Observable implements RecipeStorage {
 	public void deleteObservers(){
 		observerList.clear();
 	}
+
+	@Override
+	public void deleteRecipe(Recipe recipe) {
+		// TODO Auto-generated method stub
+		
+	}
 }

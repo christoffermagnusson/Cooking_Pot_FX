@@ -15,4 +15,6 @@ public interface RecipeStorage extends Observable{
 
 	ArrayList<Recipe> fetchRecipe(IngredientType type);
 
+	void deleteRecipe(Recipe recipe);
+
 }

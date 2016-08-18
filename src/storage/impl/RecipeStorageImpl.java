@@ -47,7 +47,7 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 	}
 
 	/**
-	*		Inserts new or updates existing recipes. Checks if recipe exists in db: if exist = update; 
+	*		Inserts new or updates existing recipes. Checks if recipe exists in db: if exist = update;
 	*		if not exists = insert. Remember to setID when fetching.
 	**/
 	@Override
@@ -117,6 +117,21 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 	public ArrayList<Recipe> fetchRecipe(IngredientType type) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteRecipe(Recipe recipe) {
+		try{
+			int id = recipe.getRecipeIngredientListHandler().getId();
+			String deleteString = String.format("DELETE FROM ingredientlist WHERE id = %d"
+					,id);
+			DBConnection.getInstance().update(deleteString);
+			notifyObservers(null);
+		}
+		catch(StorageException se){
+			Log.write(se.getMessage());
+		}
+
 	}
 
 }
