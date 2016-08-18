@@ -11,13 +11,14 @@
         <menus>
           <Menu fx:id="firstMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="closeItem" mnemonicParsing="false" text="Close" />
                   <MenuItem fx:id="newRecipeItem" mnemonicParsing="false" text="New recipe.." />
+              <MenuItem fx:id="closeItem" mnemonicParsing="false" text="Save and exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="secondMenu" mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="editRecipeItem" mnemonicParsing="false" text="Edit recipe.." />
+              <MenuItem fx:id="deleteRecipeItem" mnemonicParsing="false" text="Delete recipe" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
