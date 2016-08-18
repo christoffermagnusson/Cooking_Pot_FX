@@ -37,6 +37,9 @@ public class IngredientListHandler {
 	public void deleteLatest(){
 		ingredientList.remove(ingredientList.get(ingredientList.size()-1));
 	}
+	public void deleteIngredient(Ingredient toBeRemoved){
+		ingredientList.remove(toBeRemoved);
+	}
 	public boolean checkList(Ingredient ingredient){
 		for(Ingredient i : ingredientList){
 			if(i.toString().equals(ingredient.toString())){
