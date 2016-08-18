@@ -23,6 +23,7 @@ import storage.interfaces.RecipeStorage;
 import ui.gui.RecipeListController;
 import ui.gui.AddToRecipeDialogController;
 import ui.gui.Controller;
+import ui.gui.EditRecipeFormController;
 import ui.gui.MenuController;
 import ui.gui.NewIngredientTypeDialogController;
 import ui.gui.NewRecipeFormController;
@@ -108,6 +109,7 @@ public class MainApp extends Application{
 
 
       controller.setRecipeListItems(session.getChef());
+      controller.initListListener();
 
 
     }
@@ -128,6 +130,26 @@ public class MainApp extends Application{
 		  controller.setMainApp(this);
 		  initStorages(controller);
 
+		  controller.initComponents();
+	  }
+	  catch(IOException ioe){
+		  ioe.printStackTrace();
+	  }
+  }
+
+  public void showEditRecipeForm(Recipe recipe){
+	  try{
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(MainApp.class.getResource("../../ui/gui/EditRecipeForm.fxml"));
+		  AnchorPane editRecipeForm = (AnchorPane) loader.load();
+
+		  rootLayout.setCenter(editRecipeForm);
+
+		  EditRecipeFormController controller = loader.getController();
+		  controller.setMainApp(this);
+		  initStorages(controller);
+
+		  controller.setRecipe(recipe);
 		  controller.initComponents();
 	  }
 	  catch(IOException ioe){
@@ -155,7 +177,7 @@ public class MainApp extends Application{
 	  }
   }
 
-  public void showAddToRecipeDialog(IngredientListHandler handler){
+  public void showAddToRecipeDialog(IngredientListHandler handler, Ingredient ingredient){
 	  try{
 		  FXMLLoader loader = new FXMLLoader();
 		  loader.setLocation(MainApp.class.getResource("../../ui/gui/AddToRecipeDialog.fxml"));
@@ -170,7 +192,7 @@ public class MainApp extends Application{
 		  AddToRecipeDialogController controller = loader.getController();
 		  controller.setMainApp(this);
 		  controller.setHandler(handler);
-		  controller.initComponents();
+		  controller.initComponents(ingredient);
 		  initStorages(controller);
 		  tmpStage.showAndWait(); // Thread waits until dialog is finished.
 
@@ -186,6 +208,12 @@ public class MainApp extends Application{
   }
   public Session getSession(){
 	  return session;
+  }
+  public Recipe getCurrentRecipe(){
+	  return session.getCurrentRecipe();
+  }
+  public void setCurrentRecipe(Recipe recipe){
+	  session.setCurrentRecipe(recipe);
   }
   public static void main(String[] args){
     launch(args);
