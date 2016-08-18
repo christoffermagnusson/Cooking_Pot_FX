@@ -61,12 +61,14 @@ public class AddToRecipeDialogController extends Thread implements Controller{
 	public void setHandler(IngredientListHandler handler){
 		this.handler=handler;
 	}
-	public void initComponents(){
-		Ingredient toBeAdded = handler.getLatestAdded();
-		amountSpinner.getValueFactory().setValue(toBeAdded.getAmount());
-		amountSlider.valueProperty().setValue(toBeAdded.getAmount()); // maybe needs cast to Double
-		amountLabel.setText(String.format("Specify amount of %s",toBeAdded.getType().getName()));
-		typeLabel.setText(toBeAdded.getType().measurement());
+	public void initComponents(Ingredient ingredient){
+		if(ingredient==null){
+		ingredient = handler.getLatestAdded();
+		}
+		amountSpinner.getValueFactory().setValue(ingredient.getAmount());
+		amountSlider.valueProperty().setValue(ingredient.getAmount()); // maybe needs cast to Double
+		amountLabel.setText(String.format("Specify amount of %s",ingredient.getType().getName()));
+		typeLabel.setText(ingredient.getType().measurement());
 
 		Stage stage = (Stage) addButton.getScene().getWindow();
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
