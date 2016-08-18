@@ -69,11 +69,15 @@ public class RecipeListController implements Controller,Observer{
 		recipeList.setItems(recipeObsList);
 
 	}
+	public void initListListener(){
+		recipeList.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue) -> mainApp.setCurrentRecipe(newValue));
+	}
 	/**
 	 * Perhaps a bit redundant because of the initialize method that is called when showing this window.. but we will see
 	 */
   public void update(Observable obs,Object obj){
     setRecipeListItems(mainApp.getSession().getChef());
+
   }
 
 	/**
@@ -118,9 +122,14 @@ public class RecipeListController implements Controller,Observer{
 			// here goes ingredientlist associated with recipe as well.
 		}
 		else{
+			/*
+			 * If a recipe is deleted this will make sure that no data is lying around in the view.
+			 */
 			recipeNameLabel.setText("");
 			primaryIngredientLabel.setText("");
 			chefNameLabel.setText("");
+
+			ingredientObsList.clear();
 		}
 	}
 
