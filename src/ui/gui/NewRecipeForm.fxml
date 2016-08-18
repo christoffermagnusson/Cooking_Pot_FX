@@ -125,11 +125,15 @@
                                                 <ListView fx:id="addedList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="250.0" />
                                              </content>
                                           </ScrollPane>
-                                          <Button fx:id="removeButton" mnemonicParsing="false" text="Remove">
+                                          <ButtonBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="250.0" prefHeight="40.0" prefWidth="250.0">
                                              <VBox.margin>
                                                 <Insets top="5.0" />
                                              </VBox.margin>
-                                          </Button>
+                                             <buttons>
+                                                <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveFromRecipeButton" text="Remove" />
+                                                <Button fx:id="editAmountButton" mnemonicParsing="false" text="Edit amount.." />
+                                             </buttons>
+                                          </ButtonBar>
                                        </children>
                                     </VBox>
                                  </children>

@@ -43,6 +43,8 @@ public class NewRecipeFormController implements Controller,Observer{
 	private Button ingredientNewButton;
 	@FXML
 	private Button removeButton;
+	@FXML
+	private Button editAmountButton;
 
 	// Description pane
 	@FXML
@@ -110,6 +112,7 @@ public class NewRecipeFormController implements Controller,Observer{
 
 	}
 	private void setIngredientList(ArrayList<Ingredient> ingredientArray){
+		ingredientObsList.clear();
 		for(Ingredient i : ingredientArray){
 			if(!ingredientObsList.contains(i)){
 				ingredientObsList.add(i);
@@ -146,13 +149,20 @@ public class NewRecipeFormController implements Controller,Observer{
 		if(ingredientListHandler.checkList(ingredient)==true){
 		ingredientListHandler.addIngredient(ingredient);
 
-		mainApp.showAddToRecipeDialog(ingredientListHandler);
+		mainApp.showAddToRecipeDialog(ingredientListHandler,null);
 		setIngredientList(ingredientListHandler.getIngredientList());
 		}
 		else{
 			log.write(String.format("%s already added to recipe",ingredient)); // add dialog with user!
 		}
 
+	}
+
+	@FXML
+	private void handleRemoveFromRecipeButton(){
+		Ingredient toBeRemoved = addedList.getSelectionModel().getSelectedItem();
+		ingredientListHandler.deleteIngredient(toBeRemoved);
+		setIngredientList(ingredientListHandler.getIngredientList());
 	}
 
 	// lowest buttonbar handlers
