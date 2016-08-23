@@ -136,6 +136,11 @@ public class EditRecipeFormController implements Controller, Observer {
 	}
 	private void setIngredientListHandler(){
 		this.ingredientListHandler=recipe.getRecipeIngredientListHandler();
+
+		for(Ingredient i : ingredientListHandler.getIngredientList()){
+			Log.write(String.format("Ingredient Test : %s",i.toString()));
+		}
+
 	}
 
 	@FXML
@@ -188,8 +193,8 @@ public class EditRecipeFormController implements Controller, Observer {
 	}
 	@FXML
 	private void handleSaveChangesButton(){
-		recipeStorage.storeRecipe(recipe);
 		ingredientStorage.storeIngredients(recipe,ingredientListHandler.getIngredientList());
+		recipeStorage.storeRecipe(recipe);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Recipe updated");
 		alert.setHeaderText(String.format("Recipe for %s was successfully updated",recipe.getRecipeName()));
@@ -213,6 +218,8 @@ public class EditRecipeFormController implements Controller, Observer {
 		mainApp.setCurrentRecipe(null);
 		mainApp.showRecipeListView();
 	}
+
+
 
 
 }
