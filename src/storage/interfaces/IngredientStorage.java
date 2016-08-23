@@ -18,4 +18,6 @@ public interface IngredientStorage extends Observable{
 
 	IngredientListHandler fetchIngredients(Recipe recipe);
 
+	void removeIngredient(Ingredient ingredient,int listId);
+
 }

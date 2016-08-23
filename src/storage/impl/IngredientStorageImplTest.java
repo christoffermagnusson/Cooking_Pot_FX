@@ -95,4 +95,10 @@ public class IngredientStorageImplTest extends Observable implements IngredientS
 		observerList.clear();
 	}
 
+	@Override
+	public void removeIngredient(Ingredient ingredient, int listId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

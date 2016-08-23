@@ -131,14 +131,14 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 
 				IngredientStorageUtil util = new IngredientStorageUtil(currentHandler);
 				for(Ingredient toBeChecked : ingredients){
-					if(util.checkList(toBeChecked)==false){
+					if(util.checkList(toBeChecked)==true){
 						String updateIngredient = String.format("UPDATE handler SET amount = %d WHERE listid = %d AND ingredienttype = '%s'"
 							,toBeChecked.getAmount(),handlerId,toBeChecked.getType().getName());
 						DBConnection.getInstance().update(updateIngredient);
 
 						Log.write(updateIngredient);
 					}
-					else if(util.checkList(toBeChecked)==true){
+					else if(util.checkList(toBeChecked)==false){
 						String insertIngredient = String.format("INSERT INTO handler VALUES('%s','%d','%d')"
 							,toBeChecked.getType().getName()
 							,toBeChecked.getAmount()
@@ -188,4 +188,19 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 
 	}
 
+	@Override
+	public void removeIngredient(Ingredient ingredient, int listId) {
+		try{
+			String deleteString = String.format("DELETE FROM handler WHERE ingredienttype ='%s' AND listid = %d"
+					,ingredient.getType().getName()
+					,listId);
+			DBConnection.getInstance().update(deleteString);
+
+			Log.write(deleteString);
+		}
+		catch(StorageException se){
+		Log.write(se.getMessage());
+	}
+
+}
 }
