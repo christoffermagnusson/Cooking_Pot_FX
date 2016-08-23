@@ -24,13 +24,16 @@ public class IngredientStorageUtil {
       ResultSet res = DBConnection.getInstance().execQuery(checkString);
         if(!res.isBeforeFirst()){ // key to the fucking problem!
         	System.out.println("false");
-        return false;
+          res.close();
+      return false;
       }
+
     }catch(StorageException se){
       se.printStackTrace();
     }catch(SQLException se){
     	se.printStackTrace();
     }
+
     System.out.println("true");
     return true;
   }
