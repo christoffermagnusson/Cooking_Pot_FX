@@ -162,6 +162,8 @@ public class EditRecipeFormController implements Controller, Observer {
 		ingredientListHandler.deleteIngredient(toBeRemoved);
 		setIngredientList(ingredientListHandler.getIngredientList());
 
+		ingredientStorage.removeIngredient(toBeRemoved,ingredientListHandler.getId());
+
 	}
 	@FXML
 	private void handleAddToRecipeButton(){
