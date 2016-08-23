@@ -46,6 +46,7 @@ public class AddToRecipeDialogController extends Thread implements Controller{
 	private Verifier ver = new Verifier(); // not needed here maybe? clean this later if redundant.
 
 	private IngredientListHandler handler;
+	private Ingredient currentIngredient;
 
 	@Override
 	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage) {
@@ -61,20 +62,24 @@ public class AddToRecipeDialogController extends Thread implements Controller{
 	public void setHandler(IngredientListHandler handler){
 		this.handler=handler;
 	}
+
 	public void initComponents(Ingredient ingredient){
 		if(ingredient==null){
-		ingredient = handler.getLatestAdded();
+		currentIngredient = handler.getLatestAdded();
 		}
-		amountSpinner.getValueFactory().setValue(ingredient.getAmount());
-		amountSlider.valueProperty().setValue(ingredient.getAmount()); // maybe needs cast to Double
-		amountLabel.setText(String.format("Specify amount of %s",ingredient.getType().getName()));
-		typeLabel.setText(ingredient.getType().measurement());
+		else{currentIngredient=ingredient;}
+
+		amountSpinner.getValueFactory().setValue(currentIngredient.getAmount());
+		amountSlider.valueProperty().setValue(currentIngredient.getAmount()); // maybe needs cast to Double
+		amountLabel.setText(String.format("Specify amount of %s",currentIngredient.getType().getName()));
+		typeLabel.setText(currentIngredient.getType().measurement());
 
 		Stage stage = (Stage) addButton.getScene().getWindow();
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
 			public void handle(WindowEvent we){
+				if(handler.getId()==0){
 				handler.deleteLatest();
-			}
+			}}
 		});
 	}
 
@@ -98,16 +103,18 @@ public class AddToRecipeDialogController extends Thread implements Controller{
 	 */
 	@FXML
 	private void handleAddButton(){
-		Ingredient toBeAdded = handler.getLatestAdded(); // get the latest added ingredient
-		toBeAdded.setAmount((Integer) amountSpinner.getValue()); // sets the value
+		/*Ingredient toBeAdded = handler.getLatestAdded(); // get the latest added ingredient
+		toBeAdded.setAmount((Integer) amountSpinner.getValue()); // sets the value*/
+		currentIngredient.setAmount((Integer) amountSpinner.getValue());
 
 		Stage stage = (Stage) addButton.getScene().getWindow();
 		stage.close();
 	}
 	@FXML
 	private void handleBackButton(){
+		if(handler.getId()==0){
 		handler.deleteLatest(); // deletes this so that it will not be added to the recipe
-
+		}
 		Stage stage = (Stage) backButton.getScene().getWindow();
 		stage.close();
 	}
