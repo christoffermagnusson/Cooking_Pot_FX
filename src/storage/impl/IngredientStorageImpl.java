@@ -8,6 +8,7 @@ import domain.handlers.IngredientListHandler;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
 import domain.models.Recipe;
+import storage.impl.util.IngredientStorageUtil;
 import storage.interfaces.IngredientStorage;
 import storage.util.DBConnection;
 import storage.util.DBConverter;
@@ -104,19 +105,51 @@ public class IngredientStorageImpl extends Observable implements IngredientStora
 	*/
 	@Override
 	public void storeIngredients(Recipe recipe, ArrayList<Ingredient> ingredients) {
+		IngredientListHandler currentHandler = recipe.getRecipeIngredientListHandler();
+		int handlerId = currentHandler.getId();
+
 		try{
-			if(recipe.getRecipeIngredientListHandler().getId()==0){
+			if(handlerId==0){
+				//test
+				Log.write(String.format("handler id is : %d",handlerId));
+
 				String insertList = String.format("INSERT INTO ingredientlist (recipename) VALUES('%s')",recipe.getRecipeName());
 				DBConnection.getInstance().update(insertList);
-				int handlerId = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery("SELECT currval('ingredientlist_id_seq')"));
-				recipe.getRecipeIngredientListHandler().setId(handlerId);
+				int newHandlerId = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery("SELECT currval('ingredientlist_id_seq')"));
+				currentHandler.setId(newHandlerId);
+
 				for(Ingredient i : ingredients){
 					String insertIngredient = String.format("INSERT INTO handler VALUES('%s','%d','%d')"
 						,i.getType().getName()
 						,i.getAmount()
-						,handlerId);
+						,newHandlerId);
 					DBConnection.getInstance().update(insertIngredient);
 				}
+			}
+			else if(handlerId!=0){  // TESTING UPDATE FUNCTIONALITY..
+				Log.write(String.format("Handler id is : %d",handlerId));
+
+				IngredientStorageUtil util = new IngredientStorageUtil(currentHandler);
+				for(Ingredient toBeChecked : ingredients){
+					if(util.checkList(toBeChecked)==false){
+						String updateIngredient = String.format("UPDATE handler SET amount = %d WHERE listid = %d AND ingredienttype = '%s'"
+							,toBeChecked.getAmount(),handlerId,toBeChecked.getType().getName());
+						DBConnection.getInstance().update(updateIngredient);
+
+						Log.write(updateIngredient);
+					}
+					else if(util.checkList(toBeChecked)==true){
+						String insertIngredient = String.format("INSERT INTO handler VALUES('%s','%d','%d')"
+							,toBeChecked.getType().getName()
+							,toBeChecked.getAmount()
+							,handlerId);
+						DBConnection.getInstance().update(insertIngredient);
+
+						Log.write(insertIngredient);
+
+					}
+				}
+
 			}
 		}
 		catch(NullPointerException npe){
