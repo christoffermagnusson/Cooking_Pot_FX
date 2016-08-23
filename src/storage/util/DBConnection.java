@@ -54,7 +54,7 @@ public class DBConnection {
 		try{
 			Statement stmt = connection.createStatement();
 			ResultSet res = stmt.executeQuery(query);
-			Log.write("Query successful");
+			// Log.write("Query successful");
 			return res;
 		}
 		catch(SQLException se){
@@ -65,7 +65,7 @@ public class DBConnection {
 		try{
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate(query);
-			Log.write("Update successful");
+			// Log.write("Update successful");
 		}
 		catch(SQLException se){
 			throw new StorageException(se);
