@@ -196,7 +196,12 @@ public class EditRecipeFormController implements Controller, Observer {
 	@FXML
 	private void handleSaveChangesButton(){
 		ingredientStorage.storeIngredients(recipe,ingredientListHandler.getIngredientList());
+
+		recipe.setRecipeName(recipeNameField.getText());
+		recipe.setDescription(descriptionArea.getText());
+		recipe.setRecipePrimaryIngredientType(primaryIngredientBox.getValue());
 		recipeStorage.storeRecipe(recipe);
+
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Recipe updated");
 		alert.setHeaderText(String.format("Recipe for %s was successfully updated",recipe.getRecipeName()));
