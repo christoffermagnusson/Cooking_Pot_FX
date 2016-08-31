@@ -17,4 +17,8 @@ public interface RecipeStorage extends Observable{
 
 	void deleteRecipe(Recipe recipe);
 
+	int getId(Recipe recipe);
+
+	void setId(ArrayList<Recipe> recipes);
+
 }

@@ -53,9 +53,9 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 	@Override
 	public void storeRecipe(Recipe recipe) {
 		try{
-				String checkQuery = String.format("SELECT * FROM recipe WHERE recipename = '%s'",recipe.getRecipeName());
-				Recipe checkRecipe = DBConverter.getInstance().toRecipe(DBConnection.getInstance().execQuery(checkQuery));
-				if(checkRecipe==null){
+				/*String checkQuery = String.format("SELECT * FROM recipe WHERE recipename = '%s'",recipe.getRecipeName());
+				Recipe checkRecipe = DBConverter.getInstance().toRecipe(DBConnection.getInstance().execQuery(checkQuery));*/
+				if(recipe.getId()==0){
 
 					String recipeInsert = String.format("INSERT INTO recipe VALUES('%s','%s','%s','%d','%d')"
 						,recipe.getRecipeName()
@@ -68,12 +68,13 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 					Log.write(String.format("Recipe : %s : inserted",recipe.getRecipeName()));
 				}
 				else{
-					String recipeUpdate = String.format("UPDATE recipe SET primaryingredient = '%s', description = '%s', chefid = %d, listid = %d WHERE recipename = '%s'"
+					String recipeUpdate = String.format("UPDATE recipe SET primaryingredient = '%s', description = '%s', chefid = %d, listid = %d, recipename = '%s' WHERE id = %d"
 						,recipe.getRecipePrimaryIngredientType().getName()
 						,recipe.getDescription()
 						,recipe.getRecipeChef().getId()
 						,recipe.getRecipeIngredientListHandler().getId()
-						,recipe.getRecipeName());
+						,recipe.getRecipeName()
+						,recipe.getId());
 					DBConnection.getInstance().update(recipeUpdate);
 
 					Log.write(String.format("Recipe : %s : updated",recipe.getRecipeName()));
@@ -92,6 +93,8 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 			String fetchString = String.format("SELECT * FROM recipe WHERE recipename = '%s'"
 				,name);
 			recipe = DBConverter.getInstance().toRecipe(DBConnection.getInstance().execQuery(fetchString));
+			int id = getId(recipe);
+			recipe.setId(id);
 		}
 		catch(StorageException se){
 			Log.write(se.getMessage());
@@ -106,6 +109,7 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 			String fetchString = String.format("SELECT * FROM recipe WHERE chefid = %d"
 				,chef.getId());
 			 recipeList = DBConverter.getInstance().toRecipeList(DBConnection.getInstance().execQuery(fetchString));
+			 setId(recipeList);
 		}
 		catch(StorageException se){
 			Log.write(se.getMessage());
@@ -130,6 +134,28 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 		}
 		catch(StorageException se){
 			Log.write(se.getMessage());
+		}
+
+	}
+
+	@Override
+	public int getId(Recipe recipe) {
+		int id = 0;
+		try{
+			String idString = String.format("SELECT id FROM recipe WHERE recipename = '%s'"
+					,recipe.getRecipeName());
+			id = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery(idString));
+		}
+		catch(StorageException se){
+			Log.write(se.getMessage());
+		}
+		return id;
+	}
+
+	@Override
+	public void setId(ArrayList<Recipe> recipes) {
+		for(Recipe r : recipes){
+			r.setId(getId(r));
 		}
 
 	}

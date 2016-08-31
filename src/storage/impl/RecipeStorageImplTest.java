@@ -104,4 +104,16 @@ public class RecipeStorageImplTest extends Observable implements RecipeStorage {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getId(Recipe recipe) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setId(ArrayList<Recipe> recipes) {
+		// TODO Auto-generated method stub
+		
+	}
 }
