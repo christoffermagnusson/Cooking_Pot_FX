@@ -14,6 +14,8 @@ public class Recipe {
 	private final ObjectProperty<IngredientListHandler> recipeIngredientListHandler;
 	private final StringProperty description;
 
+	private int id;
+
 	public Recipe(String name, Chef chef, IngredientType primaryIngredientType,IngredientListHandler list,String description){
 		this.recipeName = new SimpleStringProperty(name);
 		this.recipeChef = new SimpleObjectProperty<Chef>(chef);
@@ -82,6 +84,12 @@ public class Recipe {
 
 	public void setRecipePrimaryIngredientType(IngredientType recipePrimaryIngredientType) {
 		this.recipePrimaryIngredientTypeProperty().set(recipePrimaryIngredientType);
+	}
+	public void setId(int id){
+		this.id=id;
+	}
+	public int getId(){
+		return this.id;
 	}
 
 	public String toString(){
