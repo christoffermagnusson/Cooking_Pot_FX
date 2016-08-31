@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -17,11 +16,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.gui.RecipeListController">
+<AnchorPane minWidth="-Infinity" prefHeight="750.0" prefWidth="1500.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.gui.RecipeListController">
    <children>
-      <SplitPane dividerPositions="0.29797979797979796" prefHeight="750.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.29797979797979796" prefHeight="750.0" prefWidth="1000.0" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@DarkTheme.css">
                <children>
                   <GridPane layoutX="7.0" layoutY="11.0" prefHeight="711.0" prefWidth="274.0">
                     <columnConstraints>
@@ -33,9 +32,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ScrollPane GridPane.rowIndex="1">
+                        <ScrollPane minWidth="-Infinity" prefWidth="500.0" GridPane.rowIndex="1">
                            <content>
-                              <ListView fx:id="recipeList" prefHeight="600.0" prefWidth="275.0" />
+                              <ListView fx:id="recipeList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="500.0" prefHeight="600.0" prefWidth="100.0" />
                            </content>
                         </ScrollPane>
                         <VBox prefHeight="201.0" prefWidth="274.0">
@@ -65,7 +64,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@DarkTheme.css">
                <children>
                   <SplitPane dividerPositions="0.6353887399463807" layoutX="59.0" layoutY="50.0" orientation="VERTICAL" prefHeight="748.0" prefWidth="697.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
@@ -73,18 +72,18 @@
                            <children>
                               <HBox layoutX="-36.0" layoutY="92.0" prefHeight="470.0" prefWidth="695.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <VBox prefHeight="470.0" prefWidth="700.0">
+                                    <VBox prefHeight="471.0" prefWidth="878.0">
                                        <children>
                                           <Label text="Ingredient list">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <TableView fx:id="ingredientTable" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="400.0">
+                                          <TableView fx:id="ingredientTable" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="600.0" stylesheets="@DarkTheme.css">
                                             <columns>
-                                              <TableColumn fx:id="amountColumn" prefWidth="75.0" text="Amount" />
-                                              <TableColumn fx:id="measurementColumn" prefWidth="125.0" text="Measurement" />
-                                                <TableColumn fx:id="nameColumn" prefWidth="214.0" text="Ingredient name" />
+                                              <TableColumn fx:id="amountColumn" prefWidth="124.0" text="Amount" />
+                                              <TableColumn fx:id="measurementColumn" prefWidth="183.0" text="Measurement" />
+                                                <TableColumn fx:id="nameColumn" prefWidth="276.0" text="Ingredient name" />
                                             </columns>
                                              <VBox.margin>
                                                 <Insets top="75.0" />
@@ -92,16 +91,11 @@
                                           </TableView>
                                        </children>
                                     </VBox>
-                                    <ImageView fx:id="imageView" fitHeight="353.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets top="100.0" />
-                                       </HBox.margin>
-                                    </ImageView>
                                  </children>
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <ScrollPane vbarPolicy="ALWAYS">
+                        <ScrollPane stylesheets="@DarkTheme.css" vbarPolicy="ALWAYS">
                            <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="680.0">
                                  <children>
