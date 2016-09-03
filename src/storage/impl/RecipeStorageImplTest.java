@@ -35,8 +35,7 @@ public class RecipeStorageImplTest extends Observable implements RecipeStorage {
 	}
 
 	 private void initArray(){
-		recipeList.add(new Recipe("Meatball Marinara",chefStorage.fetchChef("Roodro")
-			,ingredientStorage.fetchIngredientType("Minced meat"),new IngredientListHandler(),"Cook it slowly"));
+
 
 	}
 
@@ -102,7 +101,7 @@ public class RecipeStorageImplTest extends Observable implements RecipeStorage {
 	@Override
 	public void deleteRecipe(Recipe recipe) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -114,6 +113,6 @@ public class RecipeStorageImplTest extends Observable implements RecipeStorage {
 	@Override
 	public void setId(ArrayList<Recipe> recipes) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -3,7 +3,9 @@ package domain.models;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
 import domain.handlers.IngredientListHandler;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Recipe {
@@ -13,15 +15,27 @@ public class Recipe {
 	private final ObjectProperty<IngredientType> recipePrimaryIngredientType;
 	private final ObjectProperty<IngredientListHandler> recipeIngredientListHandler;
 	private final StringProperty description;
+	private final ObjectProperty<TimeUnit> cookingTime;
+	//private final StringProperty preferences;
 
 	private int id;
 
-	public Recipe(String name, Chef chef, IngredientType primaryIngredientType,IngredientListHandler list,String description){
+	public Recipe(String name, Chef chef, IngredientType primaryIngredientType,IngredientListHandler list,String description,TimeUnit cookingTime){
 		this.recipeName = new SimpleStringProperty(name);
 		this.recipeChef = new SimpleObjectProperty<Chef>(chef);
 		this.recipePrimaryIngredientType = new SimpleObjectProperty<IngredientType>(primaryIngredientType);
 		this.recipeIngredientListHandler = new SimpleObjectProperty<IngredientListHandler>(list);
 		this.description = new SimpleStringProperty(description);
+		this.cookingTime = new SimpleObjectProperty(cookingTime);
+	}
+	public ObjectProperty recipeCookingTimeProperty(){
+		return cookingTime;
+	}
+	public TimeUnit getCookingTime(){
+		return cookingTime.get();
+	}
+	public void setCookingTime(TimeUnit cookingTime){
+		this.cookingTime.set(cookingTime);
 	}
 	public StringProperty recipeDescriptionProperty(){
 		return description;

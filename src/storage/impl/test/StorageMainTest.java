@@ -29,7 +29,7 @@ public class StorageMainTest {
   void test(){
 
     recipeStorage.setStorages(chefStorage,ingredientStorage);
-    
+
   DBTester test = new DBTester();
   test.initAll(); // used once to init testdata to db
   IngredientStorageImpl tester = new IngredientStorageImpl();
@@ -39,7 +39,7 @@ public class StorageMainTest {
   for(IngredientType it : array){
     Log.write(it.toString());
   }*/
-  
+
   ArrayList<Ingredient> testList = new ArrayList<Ingredient>();
   for(IngredientType it : tester.fetchAllIngredientTypes()){
     testList.add(new Ingredient(it,0));
@@ -52,15 +52,15 @@ public class StorageMainTest {
     Log.write(i.toString());
   }*/
 
-  Recipe recipe = new Recipe("Meatballs"
+  /*Recipe recipe = new Recipe("Meatballs"
                             ,chefStorage.fetchChef("Roodro")
                             ,ingredientStorage.fetchIngredientType("Carrot")
                             ,new IngredientListHandler()
                             ,"Cook,cook and cook!");
   ingredientStorage.storeIngredients(recipe,testList);
 
-  
-  recipeStorage.storeRecipe(recipe);
+
+  recipeStorage.storeRecipe(recipe);*/
 
 
   }

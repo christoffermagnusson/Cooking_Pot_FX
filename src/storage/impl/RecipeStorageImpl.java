@@ -57,24 +57,30 @@ public class RecipeStorageImpl extends Observable implements RecipeStorage {
 				Recipe checkRecipe = DBConverter.getInstance().toRecipe(DBConnection.getInstance().execQuery(checkQuery));*/
 				if(recipe.getId()==0){
 
-					String recipeInsert = String.format("INSERT INTO recipe VALUES('%s','%s','%s','%d','%d')"
+
+
+					String recipeInsert = String.format("INSERT INTO recipe (recipename,primaryingredient,description,chefid,listid,cookingtime,timeunit) VALUES('%s','%s','%s','%d','%d','%d','%s')"
 						,recipe.getRecipeName()
 						,recipe.getRecipePrimaryIngredientType().getName()
 						,recipe.getDescription()
 						,recipe.getRecipeChef().getId()
-						,recipe.getRecipeIngredientListHandler().getId());
+						,recipe.getRecipeIngredientListHandler().getId()
+						,recipe.getCookingTime().getCount()
+						,recipe.getCookingTime().getUnit());
 					DBConnection.getInstance().update(recipeInsert);
 
 					Log.write(String.format("Recipe : %s : inserted",recipe.getRecipeName()));
 				}
 				else{
-					String recipeUpdate = String.format("UPDATE recipe SET primaryingredient = '%s', description = '%s', chefid = %d, listid = %d, recipename = '%s' WHERE id = %d"
+					String recipeUpdate = String.format("UPDATE recipe SET primaryingredient = '%s', description = '%s', chefid = %d, listid = %d, recipename = '%s',cookingTime = %d,timeunit = '%s' WHERE id = %d"
 						,recipe.getRecipePrimaryIngredientType().getName()
 						,recipe.getDescription()
 						,recipe.getRecipeChef().getId()
 						,recipe.getRecipeIngredientListHandler().getId()
 						,recipe.getRecipeName()
-						,recipe.getId());
+						,recipe.getId()
+						,recipe.getCookingTime().getCount()
+						,recipe.getCookingTime().getUnit());
 					DBConnection.getInstance().update(recipeUpdate);
 
 					Log.write(String.format("Recipe : %s : updated",recipe.getRecipeName()));
