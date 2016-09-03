@@ -9,6 +9,7 @@ import domain.handlers.IngredientListHandler;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
 import domain.models.Recipe;
+import domain.models.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import log.Log;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UtilStorage;
 import javafx.scene.control.TextArea;
 
 public class NewRecipeFormController implements Controller,Observer{
@@ -31,6 +33,10 @@ public class NewRecipeFormController implements Controller,Observer{
 	private ComboBox<IngredientType> primaryIngredientBox;
 	@FXML
 	private Button detailsNewIngredientButton;
+	@FXML
+	private TextField cookingTimeField;
+	@FXML
+	private ComboBox<String> timeUnitTypeBox;
 
 	// Ingredients pane
 	@FXML
@@ -62,6 +68,7 @@ public class NewRecipeFormController implements Controller,Observer{
 	private ChefStorage chefStorage;
 	private IngredientStorage ingredientStorage;
 	private RecipeStorage recipeStorage;
+	private UtilStorage utilStorage;
 
 	private ObservableList<IngredientType> ingredientTypeObsList;
 	private ObservableList<Ingredient> ingredientObsList;
@@ -98,8 +105,15 @@ public class NewRecipeFormController implements Controller,Observer{
 
 	public void initComponents(){
 		setIngredientTypeLists(ingredientStorage.fetchAllIngredientTypes());
+		setTimeUnitTypeBox(utilStorage.getTimeUnitTypes());
 
-
+	}
+	private void setTimeUnitTypeBox(ArrayList<String> typeArray){
+		for(String type : typeArray){
+			if(!timeUnitTypeBox.getItems().contains(type)){
+				timeUnitTypeBox.getItems().add(type);
+			}
+		}
 	}
 	private void setIngredientTypeLists(ArrayList<IngredientType> typeArray){
 		ingredientTypeObsList.clear();
@@ -130,10 +144,11 @@ public class NewRecipeFormController implements Controller,Observer{
 
 
 
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage,UtilStorage utilStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
+		this.utilStorage=utilStorage;
 
 	}
 	// ingredienthandlers
@@ -172,11 +187,13 @@ public class NewRecipeFormController implements Controller,Observer{
 	}
 	@FXML
 	private void handleSaveButton(){
+		TimeUnit cookingTime = new TimeUnit(Integer.parseInt(cookingTimeField.getText()),timeUnitTypeBox.getValue()); // not good enough need use of verifier here..
 		Recipe recipe = new Recipe(recipeNameField.getText()
 									,mainApp.getSession().getChef()
 									,primaryIngredientBox.getValue()
 									,ingredientListHandler 				// uses instance variable ..maybe not do that?
-									,descriptionArea.getText());
+									,descriptionArea.getText()
+									,cookingTime);
 
 		ingredientStorage.storeIngredients(recipe,recipe.getRecipeIngredientListHandler().getIngredientList());
 		recipeStorage.storeRecipe(recipe);

@@ -3,6 +3,7 @@ package ui.gui;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UtilStorage;
 import ui.gui.verifier.Verifier;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class AddToRecipeDialogController extends Thread implements Controller{
 	private ChefStorage chefStorage;
 	private IngredientStorage ingredientStorage;
 	private RecipeStorage recipeStorage;
+	private UtilStorage utilStorage;
+
 	private MainApp mainApp;
 	private Verifier ver = new Verifier(); // not needed here maybe? clean this later if redundant.
 
@@ -49,10 +52,11 @@ public class AddToRecipeDialogController extends Thread implements Controller{
 	private Ingredient currentIngredient;
 
 	@Override
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage, UtilStorage utilStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
+		this.utilStorage=utilStorage;
 
 	}
 

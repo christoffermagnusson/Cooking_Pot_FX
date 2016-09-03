@@ -3,6 +3,7 @@ package ui.gui;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UtilStorage;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert;
@@ -28,6 +29,7 @@ public class MenuController implements Controller,Observer {
 	private ChefStorage chefStorage;
 	private IngredientStorage ingredientStorage;
 	private RecipeStorage recipeStorage;
+	private UtilStorage utilStorage;
 
 	@FXML
 	private MenuBar menuBar;
@@ -51,10 +53,11 @@ public class MenuController implements Controller,Observer {
 
 
 	@Override
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage, UtilStorage utilStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
+		this.utilStorage=utilStorage;
 
 	}
 	public void setMainApp(MainApp mainApp){

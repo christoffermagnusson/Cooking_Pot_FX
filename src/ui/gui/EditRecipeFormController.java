@@ -23,6 +23,7 @@ import log.Log;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UtilStorage;
 
 public class EditRecipeFormController implements Controller, Observer {
 
@@ -61,6 +62,7 @@ public class EditRecipeFormController implements Controller, Observer {
 	private ChefStorage chefStorage;
 	private IngredientStorage ingredientStorage;
 	private RecipeStorage recipeStorage;
+	private UtilStorage utilStorage;
 	private Recipe recipe;
 
 	private ObservableList<IngredientType> ingredientTypeObsList;
@@ -83,10 +85,11 @@ public class EditRecipeFormController implements Controller, Observer {
 	}
 
 	@Override
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage, UtilStorage utilStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
+		this.utilStorage=utilStorage;
 
 	}
 	public void setMainApp(MainApp mainApp){
