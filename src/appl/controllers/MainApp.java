@@ -17,9 +17,11 @@ import log.Log;
 import storage.factories.ChefStorageFactory;
 import storage.factories.IngredientStorageFactory;
 import storage.factories.RecipeStorageFactory;
+import storage.factories.UtilStorageFactory;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UtilStorage;
 import ui.gui.RecipeListController;
 import ui.gui.AddToRecipeDialogController;
 import ui.gui.Controller;
@@ -42,11 +44,12 @@ public class MainApp extends Application{
   	private ChefStorage chefStorage = ChefStorageFactory.getStorage();
 	private IngredientStorage ingredientStorage = IngredientStorageFactory.getStorage();
 	private RecipeStorage recipeStorage = RecipeStorageFactory.getStorage();
+	private UtilStorage utilStorage = UtilStorageFactory.getStorage();
 	private Session session;
 	Log log = new Log();
 
 	private void initStorages(Controller controller){
-		controller.setStorages(this.chefStorage,this.ingredientStorage,this.recipeStorage);
+		controller.setStorages(this.chefStorage,this.ingredientStorage,this.recipeStorage,this.utilStorage);
 		try{
     this.chefStorage.addObserver((Observer) controller);
     this.ingredientStorage.addObserver((Observer) controller);
