@@ -74,6 +74,24 @@
                                                 </Button>
                                              </children>
                                           </HBox>
+                                          <Label text="Cooking time">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </Label>
+                                          <HBox>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <TextField fx:id="cookingTimeField" maxWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
+                                                <ComboBox fx:id="timeUnitTypeBox" prefWidth="100.0">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </ComboBox>
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </VBox>
                                  </children>
