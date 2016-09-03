@@ -99,7 +99,7 @@ public class DBConverter {
 				throw new StorageException(se);
 			}
 			finally{
-				
+
 			}
 			return id;
 	}
@@ -111,9 +111,9 @@ public class DBConverter {
 					,res.getString(1));
 				ResultSet typeRes = DBConnection.getInstance().execQuery(typeQuery);
 				IngredientType type = toIngredientType(typeRes);
-				
+
 				ingredientList.add(new Ingredient(type,res.getInt(2)));
-				
+
 			}
 			res.close();
 		}
@@ -125,7 +125,7 @@ public class DBConverter {
 	public static Recipe toRecipe(ResultSet res)throws StorageException{
 		Recipe recipe = null;
 		try{
-			
+
 			while(res.next()){
 				String typeName = res.getString(2);
 			ResultSet typeSet = DBConnection.getInstance().execQuery(String.format("SELECT * FROM ingredienttype WHERE name = '%s'"
@@ -140,11 +140,16 @@ public class DBConverter {
 			IngredientListHandler handler = new IngredientListHandler();
 			handler.setId(res.getInt(5));
 
+			int cookingTime = res.getInt(6);
+			String timeUnitType = res.getString(7);
+			TimeUnit timeUnit = new TimeUnit(cookingTime,timeUnitType);
+
 			recipe = new Recipe(res.getString(1)
 													,chef
 													,type
 													,handler
-													,res.getString(3));
+													,res.getString(3)
+													,timeUnit);
 			}
 			res.close();
 		}
@@ -172,11 +177,16 @@ public class DBConverter {
 				IngredientListHandler handler = new IngredientListHandler();
 				handler.setId(res.getInt(5));
 
+				int cookingTime = res.getInt(6);
+				String timeUnitType = res.getString(7);
+				TimeUnit timeUnit = new TimeUnit(cookingTime,timeUnitType);
+
 				recipeList.add(new Recipe(res.getString(1)
 																	,chef
 																	,type
 																	,handler
-																	,res.getString(3)));
+																	,res.getString(3)
+																	,timeUnit));
 			}
 			res.close();
 		}
@@ -184,6 +194,21 @@ public class DBConverter {
 			throw new StorageException(se);
 		}
 		return recipeList;
+	}
+
+	public static ArrayList<String> toTimeUnitTypeList(ResultSet res)throws StorageException{
+		ArrayList<String> typeArray = new ArrayList<String>();
+		try{
+			while(res.next()){
+				String typeName = res.getString(2);
+				typeArray.add(typeName);
+			}
+			res.close();
+
+		}catch(SQLException se){
+			throw new StorageException(se);
+		}
+		return typeArray;
 	}
 
 }
