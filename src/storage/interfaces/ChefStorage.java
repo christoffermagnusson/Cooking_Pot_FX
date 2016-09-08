@@ -9,6 +9,8 @@ public interface ChefStorage extends Observable{
 
 	Chef fetchChef(String lastName);
 
+	Chef fetchUserChef(String username);
+
 	ArrayList<Chef> fetchChefList();
 
 }

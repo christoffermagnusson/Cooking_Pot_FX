@@ -69,4 +69,10 @@ public class ChefStorageImplTest extends Observable implements ChefStorage {
 	public void deleteObservers(){
 		observerList.clear();
 	}
+
+	@Override
+	public Chef fetchUserChef(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
