@@ -38,6 +38,7 @@ public class NewRecipeFormController implements Controller,Observer{
 	@FXML
 	private ComboBox<String> timeUnitTypeBox;
 
+
 	// Ingredients pane
 	@FXML
 	private ListView<IngredientType> pickList;

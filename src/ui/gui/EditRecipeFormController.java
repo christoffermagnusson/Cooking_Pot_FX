@@ -9,6 +9,7 @@ import domain.handlers.IngredientListHandler;
 import domain.models.Ingredient;
 import domain.models.IngredientType;
 import domain.models.Recipe;
+import domain.models.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -53,6 +54,10 @@ public class EditRecipeFormController implements Controller, Observer {
 	private ComboBox<IngredientType> primaryIngredientBox;
 	@FXML
 	private Button detailsNewIngredientButton;
+	@FXML
+	private TextField cookingTimeField;
+	@FXML
+	private ComboBox<String> timeUnitTypeBox;
 
 	// Description pane
 	@FXML
@@ -103,11 +108,15 @@ public class EditRecipeFormController implements Controller, Observer {
 		setIngredientListHandler();
 		recipeNameField.setText(recipe.getRecipeName());
 		setPrimaryIngredient();
+		setTimeUnitTypeBox(utilStorage.getTimeUnitTypes());
+
+		setCookingTime();
 
 		setIngredientTypeLists(ingredientStorage.fetchAllIngredientTypes());
 
 		ArrayList<Ingredient> ingredientArray = ingredientStorage.fetchIngredients(recipe).getIngredientList();
 		setIngredientList(ingredientArray);
+
 
 		descriptionArea.setText(recipe.getDescription());  ///// CONTINUE HERE !!, CONTINUE with displaying and passing recipe for editing.
 	}
@@ -133,6 +142,17 @@ public class EditRecipeFormController implements Controller, Observer {
 				ingredientObsList.add(i);
 			}
 		}
+	}
+	private void setTimeUnitTypeBox(ArrayList<String> typeArray){
+		for(String unit : typeArray){
+			if(!timeUnitTypeBox.getItems().contains(unit)){
+				timeUnitTypeBox.getItems().add(unit);
+			}
+		}
+	}
+	private void setCookingTime(){
+		timeUnitTypeBox.setValue(recipe.getCookingTime().getUnit());
+		cookingTimeField.setText(""+recipe.getCookingTime().getCount());
 	}
 	private void setPrimaryIngredient(){
 		primaryIngredientBox.setValue(recipe.getRecipePrimaryIngredientType());
