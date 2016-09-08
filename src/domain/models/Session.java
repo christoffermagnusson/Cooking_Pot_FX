@@ -4,9 +4,11 @@ public class Session {
 
 	private Chef chef;
 	private Recipe recipe;
+	private User user;
 
-	public Session(Chef chef){
-		this.chef=chef;
+	public Session(User user){
+		this.user=user;
+		this.chef=user.getChef();
 	}
 
 	public void setChef(Chef chef){
@@ -20,6 +22,14 @@ public class Session {
 	}
 	public Recipe getCurrentRecipe(){
 		return recipe;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
