@@ -211,4 +211,18 @@ public class DBConverter {
 		return typeArray;
 	}
 
+	public static User toUser(ResultSet res)throws StorageException{
+		User user = null;
+		try{
+			while(res.next()){
+				user = new User(res.getString(2)
+						,res.getString(3));
+			}
+		}
+		catch(SQLException se){
+			throw new StorageException(se);
+		}
+		return user;
+	}
+
 }

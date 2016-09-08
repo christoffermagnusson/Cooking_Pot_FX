@@ -26,6 +26,7 @@ import ui.gui.RecipeListController;
 import ui.gui.AddToRecipeDialogController;
 import ui.gui.Controller;
 import ui.gui.EditRecipeFormController;
+import ui.gui.LoginFormController;
 import ui.gui.MenuController;
 import ui.gui.NewIngredientTypeDialogController;
 import ui.gui.NewRecipeFormController;
@@ -67,8 +68,6 @@ public class MainApp extends Application{
     this.primaryStage.setTitle("Cooking_Pot_FX");
 
     recipeStorage.setStorages(chefStorage,ingredientStorage); // not sure if this is needed later on..inits storages so that this one works properly
-    session = new Session(chefStorage.fetchChef("Roodro"));
-    System.out.println("Session chef id is : " + session.getChef().getId());
     initRootLayout();
 
   }
@@ -89,12 +88,30 @@ public class MainApp extends Application{
       controller.setMainApp(this);
       initStorages(controller);
 
-      showRecipeListView();
+      showLoginFormView();
 
     }
     catch(IOException ioe){
       ioe.printStackTrace();
     }
+  }
+
+  public void showLoginFormView(){
+	  try{
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(MainApp.class.getResource("../../ui/gui/LoginForm.fxml"));
+
+		  AnchorPane loginForm = (AnchorPane) loader.load();
+
+		  rootLayout.setCenter(loginForm);
+
+		  LoginFormController controller = loader.getController();
+		  controller.setMainApp(this);
+		  initStorages(controller);
+	  }
+	  catch(IOException ioe){
+		  ioe.printStackTrace();
+	  }
   }
 
   public void showRecipeListView(){
@@ -211,6 +228,9 @@ public class MainApp extends Application{
   }
   public Session getSession(){
 	  return session;
+  }
+  public void setSession(Session session){
+	  this.session=session;
   }
   public Recipe getCurrentRecipe(){
 	  return session.getCurrentRecipe();
