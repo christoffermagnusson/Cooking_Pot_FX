@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.gui.LoginFormController">
+   <children>
+      <VBox>
+         <children>
+            <VBox alignment="CENTER">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <Label alignment="CENTER" text="Cooking Pot">
+                     <font>
+                        <Font name="System Bold" size="53.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="Username" />
+                        <TextField fx:id="usernameField">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label fx:id="usernameLabel" text="X" textFill="#f50707" visible="false">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Password" />
+                  <PasswordField fx:id="passwordField">
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </PasswordField>
+                  <Label fx:id="passwordLabel" text="X" textFill="#f80202" visible="false">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLoginButton" text="Login">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="registerButton" mnemonicParsing="false" text="Register">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label fx:id="errorLabel" text="Invalid login information" visible="false" />
+               </children>
+               <padding>
+                  <Insets top="50.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="BOTTOM_LEFT">
+               <VBox.margin>
+                  <Insets top="200.0" />
+               </VBox.margin>
+               <children>
+                  <Label text="By Christoffer Magnusson" />
+                  <Label text="Cooking Pot version 1.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
