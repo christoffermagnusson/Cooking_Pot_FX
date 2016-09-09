@@ -13,4 +13,6 @@ public interface ChefStorage extends Observable{
 
 	ArrayList<Chef> fetchChefList();
 
+	int getLatestID();
+
 }

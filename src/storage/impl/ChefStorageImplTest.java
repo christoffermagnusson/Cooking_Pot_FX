@@ -75,4 +75,12 @@ public class ChefStorageImplTest extends Observable implements ChefStorage {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int getLatestID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 }

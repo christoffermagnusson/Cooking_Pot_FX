@@ -84,8 +84,9 @@ public class ChefStorageImpl extends Observable implements ChefStorage {
 	public Chef fetchUserChef(String username) {
 		Chef chef = null;
 		try{
-			int id = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery(String.format("SELECT chefid FROM user WHERE username='%s'",username)));
-			String fetchString = String.format("SELECT * FROM chef,user WHERE chef.id=%d",id);
+			String idString = String.format("SELECT chefid FROM cooking_pot.user WHERE username='%s'",username);
+			int id = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery(idString));
+			String fetchString = String.format("SELECT * FROM cooking_pot.chef WHERE id=%d",id);
 
 			chef = DBConverter.getInstance().toChef(DBConnection.getInstance().execQuery(fetchString));
 		}
@@ -95,4 +96,20 @@ public class ChefStorageImpl extends Observable implements ChefStorage {
 		return chef;
 	}
 
-}
+	@Override
+	public int getLatestID() {
+		int latest = 0;
+		try{
+			String fetchString = "SELECT currval('chef_id_seq')";
+			latest = DBConverter.getInstance().getId(DBConnection.getInstance().execQuery(fetchString));
+		}
+		catch(StorageException se){
+			Log.write(se.getMessage());
+		}
+		return latest;
+	}
+
+
+	}
+
+
