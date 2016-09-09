@@ -24,6 +24,7 @@ import log.Log;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UserStorage;
 import storage.interfaces.UtilStorage;
 
 public class EditRecipeFormController implements Controller, Observer {
@@ -90,7 +91,7 @@ public class EditRecipeFormController implements Controller, Observer {
 	}
 
 	@Override
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage, UtilStorage utilStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage, UtilStorage utilStorage,UserStorage userStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
