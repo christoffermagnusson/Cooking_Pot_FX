@@ -1,6 +1,5 @@
 package storage.impl.util;
 
-import domain.models.User;
 import log.Log;
 import storage.util.*;
 import java.util.HashMap;
@@ -10,31 +9,42 @@ public class UserStorageUtil {
 
 	public HashMap<Boolean,String> validate(String valueUsername,String valuePassword){
 		HashMap<Boolean,String> validatedMap = new HashMap<Boolean,String>();
-		User user = null;
 		try{
-			String checkString = String.format("SELECT * FROM cooking_pot.\"user\" WHERE username='%s' AND password='%s'"
-												,valueUsername
+			String checkUsername = String.format("SELECT username FROM cooking_pot.user WHERE username='%s'"
+												,valueUsername);
+			String checkPassword = String.format("SELECT password FROM cooking_pot.user WHERE password='%s'"
 												,valuePassword);
-			user = DBConverter.getInstance().toUser(DBConnection.getInstance().execQuery(checkString));
-
-			if(user.getUsername()==valueUsername && user.getPassword()==valueUsername){
-				validatedMap.put(true,"username"); validatedMap.put(true,"password");
+			if(checkIfExist(checkUsername)==false && checkIfExist(checkPassword)==false){
+				validatedMap.put(false,"username"); validatedMap.put(false,"password");
 				return validatedMap;
 			}
-			else if(user.getUsername()!=valueUsername && user.getPassword()==valuePassword){
+			else if(checkIfExist(checkUsername)==false && checkIfExist(checkPassword)==true){
 				validatedMap.put(false,"username"); validatedMap.put(true,"password");
 				return validatedMap;
 			}
-			else if(user.getUsername()==valueUsername && user.getPassword()!=valuePassword){
+			else if(checkIfExist(checkUsername)==true && checkIfExist(checkPassword)==false){
 				validatedMap.put(true,"username"); validatedMap.put(false,"password");
 				return validatedMap;
 			}
 			}
-		catch(StorageException se){
-			Log.write(se.getMessage());
+		catch(NullPointerException npe){
+			npe.printStackTrace();
 		}
 		return validatedMap;
 
+	}
+
+	public boolean checkIfExist(String checkString) {
+		try{
+			String checked = DBConverter.getInstance().toSingleStringAttribute(DBConnection.getInstance().execQuery(checkString));
+			if(checked==null){
+				return false;
+			}
+		}
+		catch(StorageException se){
+			Log.write(se.getMessage());
+		}
+		return true;
 	}
 
 }

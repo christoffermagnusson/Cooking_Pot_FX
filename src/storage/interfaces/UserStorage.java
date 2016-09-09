@@ -7,4 +7,6 @@ public interface UserStorage {
 	void storeUser(User user);
 
 	User getUser(String username,String password);
+
+
 }
