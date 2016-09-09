@@ -214,15 +214,38 @@ public class DBConverter {
 	public static User toUser(ResultSet res)throws StorageException{
 		User user = null;
 		try{
+
 			while(res.next()){
+
 				user = new User(res.getString(2)
 						,res.getString(3));
+
 			}
 		}
 		catch(SQLException se){
 			throw new StorageException(se);
 		}
 		return user;
+	}
+
+	public static String toSingleStringAttribute(ResultSet res)throws StorageException{
+		String attribute = "";
+		try{
+			if(res.first()==false){
+				res.close();
+				return null;
+			}
+			else{
+			while(res.next()){
+				attribute=res.getString(1);
+			}
+			}
+			res.close();
+		}
+		catch(SQLException se){
+			throw new StorageException(se);
+		}
+		return attribute;
 	}
 
 }

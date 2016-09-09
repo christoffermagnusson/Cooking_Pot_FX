@@ -52,7 +52,7 @@ public class DBConnection {
 
 	public ResultSet execQuery(String query) throws StorageException{
 		try{
-			Statement stmt = connection.createStatement();
+			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = stmt.executeQuery(query);
 			// Log.write("Query successful");
 			return res;
