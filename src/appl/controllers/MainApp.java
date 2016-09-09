@@ -17,12 +17,15 @@ import log.Log;
 import storage.factories.ChefStorageFactory;
 import storage.factories.IngredientStorageFactory;
 import storage.factories.RecipeStorageFactory;
+import storage.factories.UserStorageFactory;
 import storage.factories.UtilStorageFactory;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UserStorage;
 import storage.interfaces.UtilStorage;
 import ui.gui.RecipeListController;
+import ui.gui.RegisterFormController;
 import ui.gui.AddToRecipeDialogController;
 import ui.gui.Controller;
 import ui.gui.EditRecipeFormController;
@@ -46,11 +49,12 @@ public class MainApp extends Application{
 	private IngredientStorage ingredientStorage = IngredientStorageFactory.getStorage();
 	private RecipeStorage recipeStorage = RecipeStorageFactory.getStorage();
 	private UtilStorage utilStorage = UtilStorageFactory.getStorage();
+	private UserStorage userStorage = UserStorageFactory.getStorage();
 	private Session session;
 	Log log = new Log();
 
 	private void initStorages(Controller controller){
-		controller.setStorages(this.chefStorage,this.ingredientStorage,this.recipeStorage,this.utilStorage);
+		controller.setStorages(this.chefStorage,this.ingredientStorage,this.recipeStorage,this.utilStorage,this.userStorage);
 		try{
     this.chefStorage.addObserver((Observer) controller);
     this.ingredientStorage.addObserver((Observer) controller);
@@ -106,6 +110,28 @@ public class MainApp extends Application{
 		  rootLayout.setCenter(loginForm);
 
 		  LoginFormController controller = loader.getController();
+		  controller.setMainApp(this);
+		  initStorages(controller);
+	  }
+	  catch(IOException ioe){
+		  ioe.printStackTrace();
+	  }
+  }
+
+  public void showRegisterFormView(){
+	  try{
+		  FXMLLoader loader = new FXMLLoader();
+		  loader.setLocation(MainApp.class.getResource("../../ui/gui/RegisterForm.fxml"));
+
+		  AnchorPane registerForm = (AnchorPane) loader.load();
+
+		  Stage tmpStage = new Stage();
+		  tmpStage.setTitle("Register new user account");
+		  Scene tmpScene = new Scene(registerForm);
+		  tmpStage.setScene(tmpScene);
+		  tmpStage.show();
+
+		  RegisterFormController controller = loader.getController();
 		  controller.setMainApp(this);
 		  initStorages(controller);
 	  }
