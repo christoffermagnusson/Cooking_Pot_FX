@@ -3,6 +3,7 @@ package ui.gui;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UserStorage;
 import storage.interfaces.UtilStorage;
 import ui.gui.verifier.Verifier;
 
@@ -39,7 +40,7 @@ public class NewIngredientTypeDialogController implements Controller {
 
 
 	@Override
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage,UtilStorage utilStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage,UtilStorage utilStorage,UserStorage userStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;

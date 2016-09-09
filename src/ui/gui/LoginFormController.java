@@ -27,7 +27,7 @@ public class LoginFormController implements Controller {
 	private RecipeStorage recipeStorage;
 	private UtilStorage utilStorage;
 
-	private UserStorage userStorage = UserStorageFactory.getStorage();
+	private UserStorage userStorage;
 	private UserStorageUtil userStorageUtil = new UserStorageUtil();
 
 	private MainApp mainApp;
@@ -51,14 +51,16 @@ public class LoginFormController implements Controller {
 
 	@Override
 	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage,
-			UtilStorage utilStorage) {
-		// no need for these?
+			UtilStorage utilStorage,UserStorage userStorage) {
+		this.chefStorage=chefStorage;
+		this.userStorage=userStorage;
 
 	}
 
 	@FXML
 	private void initialize(){
-		//TODO adding something here?
+
+		//System.out.println(userStorage.getUser("christoffer88@live.se","sinai"));//TODO adding something here?
 	}
 
 	public void setMainApp(MainApp mainApp){
@@ -66,13 +68,19 @@ public class LoginFormController implements Controller {
 	}
 
 	@FXML
-	void handleLoginButton(){
+	private void handleRegisterButton(){
+		mainApp.showRegisterFormView();
+	}
+
+	@FXML
+	private void handleLoginButton(){
 		hideErrorLabels();
 		String username = usernameField.getText();
 		String password = passwordField.getText();
 
 		ArrayList<String> errorList = new ArrayList<String>();
 		HashMap<Boolean,String> validatedMap = userStorageUtil.validate(username,password);
+
 		for(Map.Entry<Boolean,String> entry : validatedMap.entrySet()){
 			if(entry.getKey()==false){
 				errorList.add(entry.getValue());
@@ -97,7 +105,7 @@ public class LoginFormController implements Controller {
 
 		}
 		}
-	void startNewSession(User user){
+	private void startNewSession(User user){
 		Chef currentChef = chefStorage.fetchUserChef(user.getUsername());
 		user.setChef(currentChef);
 

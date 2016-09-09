@@ -60,7 +60,7 @@ public class RecipeListController implements Controller,Observer{
 	private ObservableList<Recipe> recipeObsList;
 	private ObservableList<Ingredient> ingredientObsList;
 
-	public void setStorages(ChefStorage chefStorage,IngredientStorage ingredientStorage,RecipeStorage recipeStorage,UtilStorage utilStorage){
+	public void setStorages(ChefStorage chefStorage,IngredientStorage ingredientStorage,RecipeStorage recipeStorage,UtilStorage utilStorage,UserStorage userStorage){
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;

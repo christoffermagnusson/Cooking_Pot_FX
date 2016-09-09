@@ -21,6 +21,7 @@ import log.Log;
 import storage.interfaces.ChefStorage;
 import storage.interfaces.IngredientStorage;
 import storage.interfaces.RecipeStorage;
+import storage.interfaces.UserStorage;
 import storage.interfaces.UtilStorage;
 import javafx.scene.control.TextArea;
 
@@ -145,7 +146,7 @@ public class NewRecipeFormController implements Controller,Observer{
 
 
 
-	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage,UtilStorage utilStorage) {
+	public void setStorages(ChefStorage chefStorage, IngredientStorage ingredientStorage, RecipeStorage recipeStorage,UtilStorage utilStorage,UserStorage userStorage) {
 		this.chefStorage=chefStorage;
 		this.ingredientStorage=ingredientStorage;
 		this.recipeStorage=recipeStorage;
